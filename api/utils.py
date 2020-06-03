@@ -3,7 +3,7 @@ from http import HTTPStatus
 
 from authlib.jose import jwt
 from authlib.jose.errors import JoseError
-from flask import request, current_app, jsonify
+from flask import request, current_app, jsonify, g
 from api.errors import (
     URLScanInternalServerError,
     URLScanInvalidCredentialsError,
