@@ -1,7 +1,23 @@
+import json
+from http import HTTPStatus
+
 from authlib.jose import jwt
 from authlib.jose.errors import JoseError
 from flask import request, current_app, jsonify
-from werkzeug.exceptions import Forbidden, BadRequest
+from api.errors import (
+    URLScanInternalServerError,
+    URLScanInvalidCredentialsError,
+    URLScanNotFoundError,
+    URLScanTooManyRequestsError,
+    URLScanUnexpectedResponseError,
+    BadRequestError
+)
+
+
+def url_for(endpoint):
+    return current_app.config['URL_SCAN_API_URL'].format(
+        endpoint=endpoint,
+    )
 
 
 def get_jwt():
@@ -19,7 +35,7 @@ def get_jwt():
         assert scheme.lower() == 'bearer'
         return jwt.decode(token, current_app.config['SECRET_KEY'])
     except (KeyError, ValueError, AssertionError, JoseError):
-        raise Forbidden('Invalid Authorization Bearer JWT.')
+        return {}
 
 
 def get_json(schema):
@@ -34,13 +50,58 @@ def get_json(schema):
 
     data = request.get_json(force=True, silent=True, cache=False)
 
-    message = schema.validate(data)
+    error = schema.validate(data)
 
-    if message:
-        raise BadRequest(message)
+    if error:
+        raise BadRequestError(
+            f'Invalid JSON payload received. {json.dumps(error)}.')
 
     return data
 
 
 def jsonify_data(data):
     return jsonify({'data': data})
+
+
+def format_docs(docs):
+    return {'count': len(docs), 'docs': docs}
+
+
+def get_response_data(response):
+
+    expected_response_errors = {
+        HTTPStatus.UNAUTHORIZED: URLScanInvalidCredentialsError,
+        HTTPStatus.NOT_FOUND: URLScanNotFoundError,
+        HTTPStatus.INTERNAL_SERVER_ERROR: URLScanInternalServerError,
+        HTTPStatus.TOO_MANY_REQUESTS: URLScanTooManyRequestsError
+    }
+
+    if response.ok:
+        return response.json()
+
+    else:
+        if response.status_code in expected_response_errors:
+            raise expected_response_errors[response.status_code]
+        else:
+            raise URLScanUnexpectedResponseError(response)
+
+
+def jsonify_errors(error):
+    data = {
+        'errors': [error],
+        'data': {}
+    }
+
+    if g.get('sightings'):
+        data['data'].update({'sightings': format_docs(g.sightings)})
+
+    if g.get('indicators'):
+        data['data'].update({'indicators': format_docs(g.indicators)})
+
+    if g.get('judgements'):
+        data['data'].update({'judgements': format_docs(g.judgements)})
+
+    if not data['data']:
+        data.pop('data')
+
+    return jsonify(data)
