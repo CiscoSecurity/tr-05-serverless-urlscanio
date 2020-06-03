@@ -50,7 +50,8 @@ def test_health_call_success(route, client, valid_jwt, url_scan_api_request):
     assert response.status_code == HTTPStatus.OK
 
 
-def test_health_call_auth_error(route, client, valid_jwt, url_scan_api_request):
+def test_health_call_auth_error(route, client, valid_jwt,
+                                url_scan_api_request):
     url_scan_api_request.return_value = url_scan_api_response(
         ok=False, status_error=HTTPStatus.UNAUTHORIZED)
     response = client.post(route, headers=headers(valid_jwt))
