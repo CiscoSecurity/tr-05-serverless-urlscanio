@@ -1,8 +1,16 @@
 from http import HTTPStatus
 
 from pytest import fixture
+from unittest import mock
 
 from .utils import headers
+from tests.unit.mock_for_tests import (
+    EXPECTED_RESPONSE_404_ERROR,
+    EXPECTED_RESPONSE_500_ERROR,
+    EXPECTED_RESPONSE_AUTH_ERROR,
+    EXPECTED_RESPONSE_429_ERROR,
+    SEARCH_RESPONSE_MOCK
+)
 
 
 def routes():
@@ -14,11 +22,62 @@ def route(request):
     return request.param
 
 
-def test_health_call_with_invalid_jwt_failure(route, client, invalid_jwt):
-    response = client.post(route, headers=headers(invalid_jwt))
-    assert response.status_code == HTTPStatus.FORBIDDEN
+@fixture(scope='function')
+def url_scan_api_request():
+    with mock.patch('requests.get') as mock_request:
+        yield mock_request
 
 
-def test_health_call_success(route, client, valid_jwt):
+def url_scan_api_response(*, ok, status_error=None):
+    mock_response = mock.MagicMock()
+
+    mock_response.ok = ok
+
+    if ok:
+        payload = SEARCH_RESPONSE_MOCK
+
+    else:
+        mock_response.status_code = status_error
+
+    mock_response.json = lambda: payload
+
+    return mock_response
+
+
+def test_health_call_success(route, client, valid_jwt, url_scan_api_request):
+    url_scan_api_request.return_value = url_scan_api_response(ok=True)
     response = client.post(route, headers=headers(valid_jwt))
     assert response.status_code == HTTPStatus.OK
+
+
+def test_health_call_auth_error(route, client, valid_jwt,
+                                url_scan_api_request):
+    url_scan_api_request.return_value = url_scan_api_response(
+        ok=False, status_error=HTTPStatus.UNAUTHORIZED)
+    response = client.post(route, headers=headers(valid_jwt))
+    assert response.status_code == HTTPStatus.OK
+    assert response.get_json() == EXPECTED_RESPONSE_AUTH_ERROR
+
+
+def test_health_call_404(route, client, valid_jwt, url_scan_api_request):
+    url_scan_api_request.return_value = url_scan_api_response(
+        ok=False, status_error=HTTPStatus.NOT_FOUND)
+    response = client.post(route, headers=headers(valid_jwt))
+    assert response.status_code == HTTPStatus.OK
+    assert response.get_json() == EXPECTED_RESPONSE_404_ERROR
+
+
+def test_health_call_500(route, client, valid_jwt, url_scan_api_request):
+    url_scan_api_request.return_value = url_scan_api_response(
+        ok=False, status_error=HTTPStatus.INTERNAL_SERVER_ERROR)
+    response = client.post(route, headers=headers(valid_jwt))
+    assert response.status_code == HTTPStatus.OK
+    assert response.get_json() == EXPECTED_RESPONSE_500_ERROR
+
+
+def test_health_call_429(route, client, valid_jwt, url_scan_api_request):
+    url_scan_api_request.return_value = url_scan_api_response(
+        ok=False, status_error=HTTPStatus.TOO_MANY_REQUESTS)
+    response = client.post(route, headers=headers(valid_jwt))
+    assert response.status_code == HTTPStatus.OK
+    assert response.get_json() == EXPECTED_RESPONSE_429_ERROR
