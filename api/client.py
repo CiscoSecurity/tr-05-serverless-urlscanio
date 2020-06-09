@@ -58,7 +58,7 @@ class URLScanClient:
             'q': self.query_formats[observable['type']].format(
                 observable=observable['value'])
         }
-        result =  self._get(url, params=params)
+        result = self._get(url, params=params)
         result['observable'] = observable
         return result
 
@@ -66,6 +66,3 @@ class URLScanClient:
         endpoint = 'result/{}'.format(id_)
         url = self._join_url(endpoint)
         return self._get(url)
-
-
-
