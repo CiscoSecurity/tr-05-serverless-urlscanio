@@ -11,6 +11,7 @@ class Config:
     URL_SCAN_SOURCE_NAME = 'urlscan.io'
 
     URL_SCAN_API_URL = 'https://urlscan.io/api/v1/{endpoint}'
+    URL_SCAN_UI_URL = 'https://urlscan.io/result/{id}'
 
     URL_SCAN_HEALTH_CHECK_OBSERVABLE = {
         'type': 'ip',

@@ -36,24 +36,34 @@ def group_observables(relay_input):
     return result
 
 
+def get_observable_object(type_, value):
+    return {
+        'type': type_,
+        'value': value
+    }
+
+
 def get_relations(search_result):
-    domain_object = {
-        'type': 'domain',
-        'value': search_result['page']['domain']
-    }
-    url_object = {
-        'type': 'url',
-        'value': search_result['page']['url']
-    }
-    ip_object = {
-        'type': 'ip',
-        'value': search_result['page']['ip']
-    }
-    return [
-        make_relation(domain_object, ip_object, 'Resolved_To'),
-        make_relation(url_object, domain_object, 'Contains'),
-        make_relation(url_object, ip_object, 'Hosted_By')
-    ]
+    relations = []
+
+    domain_object = get_observable_object(
+        'domain', search_result['page'].get('domain'))
+    url_object = get_observable_object(
+        'url', search_result['page'].get('url'))
+    ip_object = get_observable_object(
+        'ip', search_result['page'].get('ip'))
+
+    if domain_object['value'] and url_object['value']:
+        relations.append(
+            make_relation(url_object, domain_object, 'Contains'))
+    if domain_object['value'] and ip_object['value']:
+        relations.append(
+            make_relation(domain_object, ip_object, 'Resolved_To'))
+    if url_object['value'] and ip_object['value']:
+        relations.append(
+            make_relation(url_object, ip_object, 'Hosted_By'))
+
+    return relations
 
 
 def make_relation(source, related, relation_type):
@@ -105,9 +115,8 @@ def extract_sighting(output, search_result):
         'observables': [observable],
         'observed_time': observed_time,
         'external_ids': [search_result['_id']],
-        'source_uri': search_result['result'],
-        'external_references': [search_result['result'],
-                                search_result['task']['url']],
+        'source_uri': current_app.config['URL_SCAN_UI_URL'].format(
+            id=search_result['_id']),
         'relations': get_relations(search_result),
         'data': get_data(search_result['stats']),
         **current_app.config['CTIM_SIGHTING_DEFAULT']
