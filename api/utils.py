@@ -1,15 +1,9 @@
 import json
-from http import HTTPStatus
 
 from authlib.jose import jwt
 from authlib.jose.errors import JoseError
 from flask import request, current_app, jsonify, g
 from api.errors import (
-    URLScanInternalServerError,
-    URLScanInvalidCredentialsError,
-    URLScanNotFoundError,
-    URLScanTooManyRequestsError,
-    URLScanUnexpectedResponseError,
     BadRequestError
 )
 
@@ -65,25 +59,6 @@ def jsonify_data(data):
 
 def format_docs(docs):
     return {'count': len(docs), 'docs': docs}
-
-
-def get_response_data(response):
-
-    expected_response_errors = {
-        HTTPStatus.UNAUTHORIZED: URLScanInvalidCredentialsError,
-        HTTPStatus.NOT_FOUND: URLScanNotFoundError,
-        HTTPStatus.INTERNAL_SERVER_ERROR: URLScanInternalServerError,
-        HTTPStatus.TOO_MANY_REQUESTS: URLScanTooManyRequestsError
-    }
-
-    if response.ok:
-        return response.json()
-
-    else:
-        if response.status_code in expected_response_errors:
-            raise expected_response_errors[response.status_code]
-        else:
-            raise URLScanUnexpectedResponseError(response)
 
 
 def jsonify_errors(error):
