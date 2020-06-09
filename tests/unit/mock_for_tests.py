@@ -147,12 +147,6 @@ EXPECTED_SUCCESS_RESPONSE = {
                     },
                     'description': 'Scan Result',
                     'external_ids': ['13cde17f-a7f5-4e27-8a56-5e81bc086a37'],
-                    'external_references': [
-                        'https://urlscan.io/api/v1/result/'
-                        '13cde17f-a7f5-4e27-8a56-5e81bc086a37',
-                        'https://exclusivehopie.com/onlinevisitor_us_zt_m/'
-                        'index_1.php'
-                    ],
                     'internal': False,
                     'observables': [
                         {
@@ -164,18 +158,6 @@ EXPECTED_SUCCESS_RESPONSE = {
                         'start_time': '2020-06-02T21:35:21.586000Z'
                     },
                     'relations': [
-                        {
-                            'origin': 'urlscan.io Module',
-                            'related': {
-                                'type': 'ip',
-                                'value': '1.1.1.1'
-                            },
-                            'relation': 'Resolved_To',
-                            'source': {
-                                'type': 'domain',
-                                'value': 'exclusivehopie.com'
-                            }
-                        },
                         {
                             'origin': 'urlscan.io Module',
                             'related': {
@@ -195,6 +177,18 @@ EXPECTED_SUCCESS_RESPONSE = {
                                 'type': 'ip',
                                 'value': '1.1.1.1'
                             },
+                            'relation': 'Resolved_To',
+                            'source': {
+                                'type': 'domain',
+                                'value': 'exclusivehopie.com'
+                            }
+                        },
+                        {
+                            'origin': 'urlscan.io Module',
+                            'related': {
+                                'type': 'ip',
+                                'value': '1.1.1.1'
+                            },
                             'relation': 'Hosted_By',
                             'source': {
                                 'type': 'url',
@@ -205,7 +199,7 @@ EXPECTED_SUCCESS_RESPONSE = {
                     ],
                     'schema_version': '1.0.16',
                     'source': 'urlscan.io',
-                    'source_uri': 'https://urlscan.io/api/v1/result/'
+                    'source_uri': 'https://urlscan.io/result/'
                                   '13cde17f-a7f5-4e27-8a56-5e81bc086a37',
                     'type': 'sighting'
                 },
@@ -241,11 +235,6 @@ EXPECTED_SUCCESS_RESPONSE = {
                     },
                     'description': 'Scan Result',
                     'external_ids': ['14afd7c3-aee5-4906-acde-9a706ce5bb40'],
-                    'external_references': [
-                        'https://urlscan.io/api/v1/result/'
-                        '14afd7c3-aee5-4906-acde-9a706ce5bb40',
-                        'http://covid19moodtracker.com'
-                    ],
                     'internal': False,
                     'observables': [
                         {
@@ -257,18 +246,6 @@ EXPECTED_SUCCESS_RESPONSE = {
                         'start_time': '2020-06-02T19:33:14.851000Z'
                     },
                     'relations': [
-                        {
-                            'origin': 'urlscan.io Module',
-                            'related': {
-                                'type': 'ip',
-                                'value': '1.1.1.1'
-                            },
-                            'relation': 'Resolved_To',
-                            'source': {
-                                'type': 'domain',
-                                'value': 'covid19moodtracker.com'
-                            }
-                        },
                         {
                             'origin': 'urlscan.io Module',
                             'related': {
@@ -287,6 +264,18 @@ EXPECTED_SUCCESS_RESPONSE = {
                                 'type': 'ip',
                                 'value': '1.1.1.1'
                             },
+                            'relation': 'Resolved_To',
+                            'source': {
+                                'type': 'domain',
+                                'value': 'covid19moodtracker.com'
+                            }
+                        },
+                        {
+                            'origin': 'urlscan.io Module',
+                            'related': {
+                                'type': 'ip',
+                                'value': '1.1.1.1'
+                            },
                             'relation': 'Hosted_By',
                             'source': {
                                 'type': 'url',
@@ -296,7 +285,7 @@ EXPECTED_SUCCESS_RESPONSE = {
                     ],
                     'schema_version': '1.0.16',
                     'source': 'urlscan.io',
-                    'source_uri': 'https://urlscan.io/api/v1/result/'
+                    'source_uri': 'https://urlscan.io/result/'
                                   '14afd7c3-aee5-4906-acde-9a706ce5bb40',
                     'type': 'sighting'
                 }
