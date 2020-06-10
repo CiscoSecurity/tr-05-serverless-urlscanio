@@ -1,6 +1,6 @@
 from uuid import uuid4
 from functools import partial
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from flask import Blueprint, g, current_app
 
@@ -91,6 +91,24 @@ def get_data(dict_object):
     return data
 
 
+def get_external_references(result_data):
+    external_references = []
+    for reference_object in current_app.config['URL_SCAN_REFERENCES_OBJECTS']:
+        if result_data['task'].get(reference_object):
+            external_references.append(
+                get_reference_object(
+                    reference_object, result_data['task'][reference_object]))
+    return external_references
+
+
+def get_reference_object(description, url):
+    return {
+      "source_name": current_app.config['URL_SCAN_SOURCE_NAME'],
+      "description": description,
+      "url": url
+    },
+
+
 def extract_sighting(output, search_result):
     start_time = datetime.strptime(
         search_result['task']['time'].split('+')[0],
@@ -107,7 +125,7 @@ def extract_sighting(output, search_result):
         'type': output['observable']['type']
     }
 
-    sighting_id = f'transient:{uuid4()}'
+    sighting_id = f'transient:sighting-{uuid4()}'
 
     doc = {
         'id': sighting_id,
@@ -120,6 +138,40 @@ def extract_sighting(output, search_result):
         'relations': get_relations(search_result),
         'data': get_data(search_result['stats']),
         **current_app.config['CTIM_SIGHTING_DEFAULT']
+    }
+
+    return doc
+
+
+def extract_judgement(output, result_output):
+    start_time = datetime.strptime(
+        result_output['task']['time'].split('+')[0],
+        '%Y-%m-%dT%H:%M:%S.%fZ'
+    )
+    end_time = start_time + timedelta(
+        days=current_app.config['CTIM_VALID_DAYS_PERIOD'])
+
+    observed_time = {
+        'start_time': start_time.isoformat(
+            timespec='microseconds') + 'Z',
+        'end_time': end_time.isoformat(timespec='microseconds') + 'Z'
+    }
+
+    observable = {
+        'value': output['observable']['value'],
+        'type': output['observable']['type']
+    }
+
+    judgement_id = f'transient:judgement-{uuid4()}'
+
+    doc = {
+        'id': judgement_id,
+        'observables': [observable],
+        'source_uri': result_output['task']['reportURL'],
+        'observed_time': observed_time,
+        'reason': result_output['verdicts']['overall']['tags'],
+        'external_references': get_external_references(result_output),
+        **current_app.config['CTIM_JUDGEMENT_DEFAULT']
     }
 
     return doc
@@ -148,6 +200,7 @@ def observe_observables():
     )
 
     g.sightings = []
+    g.judgements = []
 
     for observable in observables:
 
@@ -165,10 +218,17 @@ def observe_observables():
             for search_result in search_results:
                 g.sightings.append(extract_sighting(output, search_result))
 
+                result_output = client.get_result_data(search_result['_id'])
+                if result_output['verdicts']['overall']['malicious']:
+                    g.judgements.append(
+                        extract_judgement(output, result_output))
+
     relay_output = {}
 
     if g.sightings:
         relay_output['sightings'] = format_docs(g.sightings)
+    if g.judgements:
+        relay_output['judgements'] = format_docs(g.judgements)
 
     return jsonify_data(relay_output)
 
