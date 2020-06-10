@@ -158,7 +158,7 @@ def observe_observables():
             search_results = output['results']
             search_results.sort(key=lambda x: x['task']['time'], reverse=True)
 
-            if len(search_results) >= current_app.config['CTR_ENTITIES_LIMIT']:
+            if len(search_results) > current_app.config['CTR_ENTITIES_LIMIT']:
                 search_results = \
                     search_results[:current_app.config['CTR_ENTITIES_LIMIT']]
 
