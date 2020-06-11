@@ -106,7 +106,7 @@ def get_reference_object(description, url):
       "source_name": current_app.config['URL_SCAN_SOURCE_NAME'],
       "description": description,
       "url": url
-    },
+    }
 
 
 def extract_sighting(output, search_result):
