@@ -11,7 +11,8 @@ from tests.unit.mock_for_tests import (
     EXPECTED_RESPONSE_429_ERROR,
     SEARCH_RESPONSE_MOCK,
     EXPECTED_SUCCESS_RESPONSE,
-    RESULT_RESPONCE_MOCK
+    RESULT_1_RESPONCE_MOCK,
+    RESULT_2_RESPONCE_MOCK
 )
 
 
@@ -87,8 +88,8 @@ def test_enrich_call_success(route, client, valid_jwt, valid_json,
                              url_scan_api_request):
     url_scan_api_request.side_effect = (
         url_scan_api_response(ok=True),
-        url_scan_api_response(ok=True, payload=RESULT_RESPONCE_MOCK),
-        url_scan_api_response(ok=True, payload=RESULT_RESPONCE_MOCK)
+        url_scan_api_response(ok=True, payload=RESULT_1_RESPONCE_MOCK),
+        url_scan_api_response(ok=True, payload=RESULT_2_RESPONCE_MOCK)
     )
 
     response = client.post(route, headers=headers(valid_jwt), json=valid_json)
@@ -97,10 +98,25 @@ def test_enrich_call_success(route, client, valid_jwt, valid_json,
 
     data = response.get_json()
 
-    assert data['data']['sightings']['docs'][0].pop('id')
-    assert data['data']['sightings']['docs'][1].pop('id')
-    assert data['data']['judgements']['docs'][0].pop('id')
-    assert data['data']['judgements']['docs'][1].pop('id')
+    sightings_data = data['data']['sightings']
+    sighting_id_1 = sightings_data['docs'][0].pop('id')
+    sighting_id_2 = sightings_data['docs'][1].pop('id')
+
+    judgements_data = data['data']['judgements']
+    assert judgements_data['docs'][0].pop('id')
+    assert judgements_data['docs'][1].pop('id')
+
+    indicators_data = data['data']['indicators']
+    indicator_id_1 = indicators_data['docs'][0].pop('id')
+    indicator_id_2 = indicators_data['docs'][1].pop('id')
+
+    relationships_data = data['data']['relationships']
+    assert relationships_data['docs'][0].pop('id')
+    assert relationships_data['docs'][1].pop('id')
+    assert relationships_data['docs'][0].pop('source_ref') == indicator_id_1
+    assert relationships_data['docs'][1].pop('source_ref') == indicator_id_2
+    assert relationships_data['docs'][0].pop('target_ref') == sighting_id_1
+    assert relationships_data['docs'][1].pop('target_ref') == sighting_id_2
 
     assert data == EXPECTED_SUCCESS_RESPONSE
 
@@ -110,8 +126,8 @@ def test_enrich_error_with_data(route, client, valid_jwt, valid_json_multiple,
 
     url_scan_api_request.side_effect = (
         url_scan_api_response(ok=True),
-        url_scan_api_response(ok=True, payload=RESULT_RESPONCE_MOCK),
-        url_scan_api_response(ok=True, payload=RESULT_RESPONCE_MOCK),
+        url_scan_api_response(ok=True, payload=RESULT_1_RESPONCE_MOCK),
+        url_scan_api_response(ok=True, payload=RESULT_2_RESPONCE_MOCK),
         url_scan_api_response(
             ok=False, status_error=HTTPStatus.TOO_MANY_REQUESTS),
     )
@@ -123,10 +139,25 @@ def test_enrich_error_with_data(route, client, valid_jwt, valid_json_multiple,
 
     data = response.get_json()
 
-    assert data['data']['sightings']['docs'][0].pop('id')
-    assert data['data']['sightings']['docs'][1].pop('id')
-    assert data['data']['judgements']['docs'][0].pop('id')
-    assert data['data']['judgements']['docs'][1].pop('id')
+    sightings_data = data['data']['sightings']
+    sighting_id_1 = sightings_data['docs'][0].pop('id')
+    sighting_id_2 = sightings_data['docs'][1].pop('id')
+
+    judgements_data = data['data']['judgements']
+    assert judgements_data['docs'][0].pop('id')
+    assert judgements_data['docs'][1].pop('id')
+
+    indicators_data = data['data']['indicators']
+    indicator_id_1 = indicators_data['docs'][0].pop('id')
+    indicator_id_2 = indicators_data['docs'][1].pop('id')
+
+    relationships_data = data['data']['relationships']
+    assert relationships_data['docs'][0].pop('id')
+    assert relationships_data['docs'][1].pop('id')
+    assert relationships_data['docs'][0].pop('source_ref') == indicator_id_1
+    assert relationships_data['docs'][1].pop('source_ref') == indicator_id_2
+    assert relationships_data['docs'][0].pop('target_ref') == sighting_id_1
+    assert relationships_data['docs'][1].pop('target_ref') == sighting_id_2
 
     expected_data = {}
     expected_data.update(EXPECTED_SUCCESS_RESPONSE)
