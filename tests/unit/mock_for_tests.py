@@ -483,18 +483,16 @@ EXPECTED_SUCCESS_RESPONSE = {
                                    '08e8-410c-86e9-59af6cc4daed/'
                         }
                     ],
-                    'observables': [
-                        {
-                            'type': 'ip',
-                            'value': '1.1.1.1'
-                        }
-                    ],
-                    'observed_time': {
+                    'observable': {
+                        'type': 'ip',
+                        'value': '1.1.1.1'
+                    },
+                    'valid_time': {
                         'end_time': '2020-05-03T21:49:49.012000Z',
                         'start_time': '2020-04-26T21:49:49.012000Z'
                     },
                     'priority': 85,
-                    'reason': ['coinmining'],
+                    'reason': 'coinmining',
                     'schema_version': '1.0.16',
                     'severity': 'High',
                     'source': 'urlscan.io',
@@ -526,18 +524,16 @@ EXPECTED_SUCCESS_RESPONSE = {
                                    '08e8-410c-86e9-59af6cc4daed/'
                         }
                     ],
-                    'observables': [
-                        {
-                            'type': 'ip',
-                            'value': '1.1.1.1'
-                        }
-                    ],
-                    'observed_time': {
+                    'observable': {
+                        'type': 'ip',
+                        'value': '1.1.1.1'
+                    },
+                    'valid_time': {
                         'end_time': '2020-05-03T21:49:49.012000Z',
                         'start_time': '2020-04-26T21:49:49.012000Z'
                     },
                     'priority': 85,
-                    'reason': ['phishing'],
+                    'reason': 'phishing',
                     'schema_version': '1.0.16',
                     'severity': 'High',
                     'source': 'urlscan.io',

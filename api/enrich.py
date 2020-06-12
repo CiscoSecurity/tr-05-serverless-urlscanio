@@ -157,7 +157,7 @@ def extract_judgement(output, result_output):
     end_time = start_time + timedelta(
         days=current_app.config['CTIM_VALID_DAYS_PERIOD'])
 
-    observed_time = {
+    valid_time = {
         'start_time': start_time.isoformat(
             timespec='microseconds') + 'Z',
         'end_time': end_time.isoformat(timespec='microseconds') + 'Z'
@@ -172,10 +172,10 @@ def extract_judgement(output, result_output):
 
     doc = {
         'id': judgement_id,
-        'observables': [observable],
+        'observable': observable,
         'source_uri': result_output['task']['reportURL'],
-        'observed_time': observed_time,
-        'reason': result_output['verdicts']['overall']['tags'],
+        'valid_time': valid_time,
+        'reason': ', '.join(result_output['verdicts']['overall']['tags']),
         'external_references': get_external_references(result_output),
         **current_app.config['CTIM_JUDGEMENT_DEFAULT']
     }
