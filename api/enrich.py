@@ -189,7 +189,7 @@ def extract_indicator(output, result_output, category):
         '%Y-%m-%dT%H:%M:%S.%fZ'
     )
 
-    observed_time = {
+    valid_time = {
         'start_time': start_time.isoformat(
             timespec='microseconds') + 'Z'
     }
@@ -200,7 +200,7 @@ def extract_indicator(output, result_output, category):
 
     doc = {
         'id': indicator_id,
-        'observed_time': observed_time,
+        'valid_time': valid_time,
         'external_ids': [result_output['task']['uuid']],
         'title': category,
         'tags': result_output['verdicts']['overall']['tags'],

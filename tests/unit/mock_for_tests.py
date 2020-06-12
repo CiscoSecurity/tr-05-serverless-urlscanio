@@ -410,7 +410,7 @@ EXPECTED_SUCCESS_RESPONSE = {
                                    'e9bbe3d0-08e8-410c-86e9-59af6cc4daed/'
                         }
                     ],
-                    'observed_time': {
+                    'valid_time': {
                         'start_time': '2020-04-26T21:49:49.012000Z'
                     },
                     'producer': 'urlscan.io',
@@ -445,7 +445,7 @@ EXPECTED_SUCCESS_RESPONSE = {
                                    'e9bbe3d0-08e8-410c-86e9-59af6cc4daed/'
                         }
                     ],
-                    'observed_time': {
+                    'valid_time': {
                         'start_time': '2020-04-26T21:49:49.012000Z'
                     },
                     'producer': 'urlscan.io',
