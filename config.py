@@ -25,6 +25,8 @@ class Config:
         'url': 'page.url:{observable}'
     }
 
+    URL_SCAN_REFERENCES_OBJECTS = ['domURL', 'screenshotURL', 'reportURL']
+
     USER_AGENT = ('Cisco Threat Response Integrations '
                   '<tr-integrations-support@cisco.com>')
 
@@ -48,3 +50,15 @@ class Config:
         'internal': False,
         'description': 'Scan Result'
     }
+
+    CTIM_JUDGEMENT_DEFAULT = {
+        'type': 'judgement',
+        'schema_version': CTIM_SCHEMA_VERSION,
+        'source': URL_SCAN_SOURCE_NAME,
+        'confidence': 'High',
+        'severity': 'High',
+        'priority': 85,
+        'disposition_name': 'Malicious',
+        'disposition': 2
+    }
+    CTIM_VALID_DAYS_PERIOD = 7
