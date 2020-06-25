@@ -259,7 +259,7 @@ header set to `Bearer <JWT>`.
 
 ```json
 {
-  "key": "<urlscan.io_API_KEY>"
+  "key": "<URLSCAN.IO_API_KEY>"
 }
 ```
 
