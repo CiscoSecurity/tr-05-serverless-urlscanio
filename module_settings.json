@@ -1,0 +1,11 @@
+{
+  "name": "urlscan.io. URL and website sandbox",
+  "jwt": {
+    "key": "urlscan.io API Key"
+  },
+  "region": {
+    "us": "a0d1f3ca-bc86-4b87-b6de-496d3c4b4d63",
+    "eu": "0f38ca9a-697f-4018-aaeb-c21976cf0a44",
+    "apjc": "cd7a3577-8a10-407e-a114-3a11ab5f5113"
+  }
+}
