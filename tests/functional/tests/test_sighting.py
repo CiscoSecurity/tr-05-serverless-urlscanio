@@ -53,7 +53,7 @@ def test_positive_sighting(module_headers, observable, observable_type):
         assert sighting['external_ids']
         assert sighting['internal'] is False
         assert sighting['source_uri'].startswith('https://urlscan.io/')
-        assert sighting['id'].startswith('transient:')
+        assert sighting['id'].startswith('transient:sighting')
         assert sighting['count'] == 1
         assert sighting['confidence'] in confidence_levels
         assert sighting['observed_time']['start_time']

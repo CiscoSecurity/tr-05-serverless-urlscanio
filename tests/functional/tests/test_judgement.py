@@ -42,7 +42,7 @@ def test_positive_judgement(module_headers):
         assert judgement['source_uri'].startswith('https://urlscan.io/')
         assert judgement['disposition_name'] == 'Malicious'
         assert judgement['priority']
-        assert judgement['id'].startswith('transient:')
+        assert judgement['id'].startswith('transient:judgement')
         assert judgement['severity'] in impact
         assert judgement['confidence'] in impact
 
