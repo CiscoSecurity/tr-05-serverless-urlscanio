@@ -1,6 +1,5 @@
 [![Travis CI Build Status](https://travis-ci.com/CiscoSecurity/tr-05-serverless-urlscanio.svg?branch=develop)](https://travis-ci.com/CiscoSecurity/tr-05-serverless-urlscanio)
 
-
 # urlscan.io. URL and website sandbox Relay
 
 Concrete Relay implementation using
@@ -277,7 +276,7 @@ header set to `Bearer <JWT>`.
 
 ## CTIM Mapping Specifics
 
-To create CTIM entities using data from `search` and `result` endpoints.
+The application uses data from `search` and `result` endpoints responses.
 
 Each response from the urlscan.io API for the supported observables generates
 the following CTIM entities:
