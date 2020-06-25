@@ -283,7 +283,7 @@ EXPECTED_SUCCESS_RESPONSE = {
                     },
                     'priority': 85,
                     'reason': 'phishing',
-                    'schema_version': '1.0.16',
+                    'schema_version': '1.0.17',
                     'severity': 'High',
                     'source': 'urlscan.io',
                     'source_uri': 'https://urlscan.io/result/'
@@ -324,7 +324,7 @@ EXPECTED_SUCCESS_RESPONSE = {
                     },
                     'priority': 85,
                     'reason': 'phishing',
-                    'schema_version': '1.0.16',
+                    'schema_version': '1.0.17',
                     'severity': 'High',
                     'source': 'urlscan.io',
                     'source_uri': 'https://urlscan.io/result/'
@@ -418,7 +418,7 @@ EXPECTED_SUCCESS_RESPONSE = {
                             }
                         }
                     ],
-                    'schema_version': '1.0.16',
+                    'schema_version': '1.0.17',
                     'source': 'urlscan.io',
                     'source_uri': 'https://urlscan.io/result/'
                                   '13cde17f-a7f5-4e27-8a56-5e81bc086a37',
@@ -504,7 +504,7 @@ EXPECTED_SUCCESS_RESPONSE = {
                             }
                         }
                     ],
-                    'schema_version': '1.0.16',
+                    'schema_version': '1.0.17',
                     'source': 'urlscan.io',
                     'source_uri': 'https://urlscan.io/result/'
                                   '14afd7c3-aee5-4906-acde-9a706ce5bb40',
