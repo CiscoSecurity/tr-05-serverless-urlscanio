@@ -1,7 +1,7 @@
 [![Travis CI Build Status](https://travis-ci.com/CiscoSecurity/tr-05-serverless-urlscanio.svg?branch=develop)](https://travis-ci.com/CiscoSecurity/tr-05-serverless-urlscanio)
 
 
-# urlscan.io. URL and website sandbox Relay API
+# urlscan.io. URL and website sandbox Relay
 
 Concrete Relay implementation using
 [urlscan.io. URL and website sandbox](https://urlscan.io/)
