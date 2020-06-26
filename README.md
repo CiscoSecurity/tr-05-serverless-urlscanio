@@ -247,6 +247,18 @@ header set to `Bearer <JWT>`.
     - `Sighting`,
     - `Indicator`,
     - `Relationship`.
+    
+- `POST /refer/observables`
+  - Accepts a list of observables and filters out unsupported ones.
+  - Builds a search link per each supported observable to pivot back to 
+  the underlying external service and look up the observable there.
+  - Returns a list of those links.
+  
+- `POST /respond/observables`
+  - Accepts a list of observables and filters out unsupported ones.
+  - Builds a scan link per each supported observable to make scan action with 
+  this observables on urlscan.io.
+  - Returns a list of those links.
 
 ### Supported Types of Observables
 
