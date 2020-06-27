@@ -1,0 +1,18 @@
+[
+  {
+    "type": "ip",
+    "value": "1.1.1.1"
+  },
+  {
+    "type": "ipv6",
+    "value": "2606:4700:3036::6818:62bd"
+  },
+  {
+    "type": "domain",
+    "value": "unionsportsmen.org"
+  },
+  {
+    "type": "url",
+    "value": "http://advokatnasibova.ru/wp-content/themes/sketch/Paypal/"
+  }
+]
