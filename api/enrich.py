@@ -285,7 +285,8 @@ def observe_observables():
                 g.sightings.append(extract_sighting(output, search_result))
 
                 result_output = client.get_result_data(search_result['_id'])
-                if result_output['verdicts']['overall']['malicious']:
+                if result_output and \
+                        result_output['verdicts']['overall']['malicious']:
                     g.judgements.append(
                         extract_judgement(output, result_output))
                     for category in \
