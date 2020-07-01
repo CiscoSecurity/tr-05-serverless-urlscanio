@@ -208,6 +208,9 @@ def extract_indicator(output, result_output, category):
         'description':
             current_app.config['CTIM_INDICATOR_DESCRIPTION_TEMPLATE'].format(
                 category=category),
+        'short_description':
+            current_app.config['CTIM_INDICATOR_DESCRIPTION_TEMPLATE'].format(
+                category=category),
         **current_app.config['CTIM_INDICATOR_DEFAULT']
     }
 

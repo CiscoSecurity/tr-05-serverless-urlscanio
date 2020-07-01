@@ -516,93 +516,6 @@ EXPECTED_RESPONSE_429_ERROR = {
 
 EXPECTED_SUCCESS_RESPONSE = {
     'data': {
-        'judgements': {
-            'count': 2,
-            'docs': [
-                {
-                    'confidence': 'High',
-                    'disposition': 2,
-                    'disposition_name': 'Malicious',
-                    'external_references': [
-                        {
-                            'description': 'domURL',
-                            'source_name': 'urlscan.io',
-                            'url': 'https://urlscan.io/dom/'
-                                   'e9bbe3d0-08e8-410c-86e9-59af6cc4daed/'
-                        },
-                        {
-                            'description': 'screenshotURL',
-                            'source_name': 'urlscan.io',
-                            'url': 'https://urlscan.io/screenshots/e9bbe3d'
-                                   '0-08e8-410c-86e9-59af6cc4daed.png'
-                        },
-                        {
-                            'description': 'reportURL',
-                            'source_name': 'urlscan.io',
-                            'url': 'https://urlscan.io/result/e9bbe3d0-'
-                                   '08e8-410c-86e9-59af6cc4daed/'
-                        }
-                    ],
-                    'observable': {
-                        'type': 'ip',
-                        'value': '1.1.1.1'
-                    },
-                    'valid_time': {
-                        'end_time': '2020-05-03T21:49:49.012000Z',
-                        'start_time': '2020-04-26T21:49:49.012000Z'
-                    },
-                    'priority': 85,
-                    'reason': 'phishing',
-                    'schema_version': '1.0.17',
-                    'severity': 'High',
-                    'source': 'urlscan.io',
-                    'source_uri': 'https://urlscan.io/result/'
-                                  'e9bbe3d0-08e8-410c-86e9-59af6cc4daed/',
-                    'type': 'judgement'
-                },
-                {
-                    'confidence': 'High',
-                    'disposition': 2,
-                    'disposition_name': 'Malicious',
-                    'external_references': [
-                        {
-                            'description': 'domURL',
-                            'source_name': 'urlscan.io',
-                            'url': 'https://urlscan.io/dom/e9bbe3d0-08e8'
-                                   '-410c-86e9-59af6cc4daed/'
-                        },
-                        {
-                            'description': 'screenshotURL',
-                            'source_name': 'urlscan.io',
-                            'url': 'https://urlscan.io/screenshots/e9bbe3d'
-                                   '0-08e8-410c-86e9-59af6cc4daed.png'
-                        },
-                        {
-                            'description': 'reportURL',
-                            'source_name': 'urlscan.io',
-                            'url': 'https://urlscan.io/result/e9bbe3d0-'
-                                   '08e8-410c-86e9-59af6cc4daed/'
-                        }
-                    ],
-                    'observable': {
-                        'type': 'ip',
-                        'value': '1.1.1.1'
-                    },
-                    'valid_time': {
-                        'end_time': '2020-05-03T21:49:49.012000Z',
-                        'start_time': '2020-04-26T21:49:49.012000Z'
-                    },
-                    'priority': 85,
-                    'reason': 'phishing',
-                    'schema_version': '1.0.17',
-                    'severity': 'High',
-                    'source': 'urlscan.io',
-                    'source_uri': 'https://urlscan.io/result/'
-                                  'e9bbe3d0-08e8-410c-86e9-59af6cc4daed/',
-                    'type': 'judgement'
-                }
-            ]
-        },
         'indicators': {
             'count': 2,
             'docs': [
@@ -636,7 +549,8 @@ EXPECTED_SUCCESS_RESPONSE = {
                         'start_time': '2020-04-26T21:49:49.012000Z'
                     },
                     'producer': 'urlscan.io',
-                    'schema_version': '1.0.16',
+                    'schema_version': '1.0.17',
+                    'short_description': 'Сlassified as coinmining',
                     'tags': ['coinmining'],
                     'title': 'coinmining',
                     'type': 'indicator'
@@ -671,7 +585,8 @@ EXPECTED_SUCCESS_RESPONSE = {
                         'start_time': '2020-04-26T21:49:49.012000Z'
                     },
                     'producer': 'urlscan.io',
-                    'schema_version': '1.0.16',
+                    'schema_version': '1.0.17',
+                    'short_description': 'Сlassified as phishing',
                     'tags': ['phishing'],
                     'title': 'phishing',
                     'type': 'indicator'
@@ -715,7 +630,7 @@ EXPECTED_SUCCESS_RESPONSE = {
                     },
                     'priority': 85,
                     'reason': 'coinmining',
-                    'schema_version': '1.0.16',
+                    'schema_version': '1.0.17',
                     'severity': 'High',
                     'source': 'urlscan.io',
                     'source_uri': 'https://urlscan.io/result/'
@@ -756,7 +671,7 @@ EXPECTED_SUCCESS_RESPONSE = {
                     },
                     'priority': 85,
                     'reason': 'phishing',
-                    'schema_version': '1.0.16',
+                    'schema_version': '1.0.17',
                     'severity': 'High',
                     'source': 'urlscan.io',
                     'source_uri': 'https://urlscan.io/result/'
@@ -770,12 +685,12 @@ EXPECTED_SUCCESS_RESPONSE = {
             'docs': [
                 {
                     'relationship_type': 'indicates',
-                    'schema_version': '1.0.16',
+                    'schema_version': '1.0.17',
                     'type': 'relationship'
                 },
                 {
                     'relationship_type': 'indicates',
-                    'schema_version': '1.0.16',
+                    'schema_version': '1.0.17',
                     'type': 'relationship'
                 }
             ]
