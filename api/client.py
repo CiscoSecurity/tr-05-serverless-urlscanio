@@ -19,20 +19,14 @@ class URLScanClient:
         HTTPStatus.TOO_MANY_REQUESTS: URLScanTooManyRequestsError
     }
 
-    query_formats = {
-        'ip': 'ip:{observable}',
-        'ipv6': 'ip:{observable}',
-        'domain': 'domain:{observable}',
-        'url': 'page.url:{observable}'
-    }
-
-    def __init__(self, base_url, api_key, user_agent):
+    def __init__(self, base_url, api_key, user_agent, observable_types):
         self.base_url = base_url
         self.headers = {
             'Accept': 'application/json',
             'X-API-Key': api_key,
             'User-Agent': user_agent
         }
+        self.observable_types = observable_types
 
     def _get_response_data(self, response):
 
@@ -55,7 +49,7 @@ class URLScanClient:
     def get_search_data(self, observable):
         url = self._join_url('search')
         params = {
-            'q': self.query_formats[observable['type']].format(
+            'q': self.observable_types[observable['type']].format(
                 observable=observable['value'])
         }
         result = self._get(url, params=params)

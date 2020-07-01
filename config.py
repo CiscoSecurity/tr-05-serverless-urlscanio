@@ -19,10 +19,10 @@ class Config:
     }
 
     URL_SCAN_OBSERVABLE_TYPES = {
-        'ip': 'ip:{observable}',
-        'ipv6': 'ip:{observable}',
-        'domain': 'domain:{observable}',
-        'url': 'page.url:{observable}'
+        'ip': 'ip:"{observable}"',
+        'ipv6': 'ip:"{observable}"',
+        'domain': 'domain:"{observable}"',
+        'url': 'page.url:"{observable}"'
     }
 
     URL_SCAN_REFERENCES_OBJECTS = ['domURL', 'screenshotURL', 'reportURL']
