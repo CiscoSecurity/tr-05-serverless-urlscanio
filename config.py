@@ -19,10 +19,10 @@ class Config:
     }
 
     URL_SCAN_OBSERVABLE_TYPES = {
-        'ip': 'ip:{observable}',
-        'ipv6': 'ip:{observable}',
-        'domain': 'domain:{observable}',
-        'url': 'page.url:{observable}'
+        'ip': 'ip:"{observable}"',
+        'ipv6': 'ip:"{observable}"',
+        'domain': 'domain:"{observable}"',
+        'url': 'page.url:"{observable}"'
     }
 
     URL_SCAN_REFERENCES_OBJECTS = ['domURL', 'screenshotURL', 'reportURL']
@@ -40,7 +40,7 @@ class Config:
     except (ValueError, TypeError):
         pass
 
-    CTIM_SCHEMA_VERSION = '1.0.16'
+    CTIM_SCHEMA_VERSION = '1.0.17'
 
     CTIM_SIGHTING_DEFAULT = {
         'type': 'sighting',

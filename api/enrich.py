@@ -255,7 +255,8 @@ def observe_observables():
     client = URLScanClient(
         base_url=current_app.config['URL_SCAN_API_URL'],
         api_key=api_key,
-        user_agent=current_app.config['USER_AGENT']
+        user_agent=current_app.config['USER_AGENT'],
+        observable_types=current_app.config['URL_SCAN_OBSERVABLE_TYPES']
     )
 
     g.sightings = []
