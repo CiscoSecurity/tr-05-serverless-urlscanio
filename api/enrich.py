@@ -192,7 +192,7 @@ def get_browse_reference(observable):
         'id': f'ref-urlscan-browse-{observable["type"]}-'
               f'{quote(observable["value"], safe="")}',
         'title': (
-            f'Browse for this {observable["type"]}'
+            f'Browse {observable["type"]}'
         ),
         'description': (
             f'Check this {observable["type"]} status with urlscan.io'
@@ -212,7 +212,7 @@ def get_search_reference(observable):
         'id': f'ref-urlscan-search-{observable["type"]}-'
               f'{quote(observable["value"], safe="")}',
         'title': (
-            f'Search for this {observable["type"]}'
+            f'Search {observable["type"]}'
         ),
         'description': (
             f'Check this {observable["type"]} status with urlscan.io'
