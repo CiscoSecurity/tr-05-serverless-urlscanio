@@ -514,3 +514,21 @@ EXPECTED_SUCCESS_RESPONSE = {
         }
     }
 }
+
+EXPECTED_REFER_RESPONSE = {
+    'data': [
+        {
+            'categories': ['Browse', 'urlscan.io'],
+            'description': 'Check this ip status with urlscan.io',
+            'title': 'Browse ip',
+            'url': 'https://urlscan.io/ip/1.1.1.1'
+        },
+        {
+            'categories': ['Search', 'urlscan.io'],
+            'description': 'Check this ip status with urlscan.io',
+            'id': 'ref-urlscan-search-ip-1.1.1.1',
+            'title': 'Search ip',
+            'url': 'https://urlscan.io/search/#ip:1.1.1.1'
+        }
+    ]
+}

@@ -11,12 +11,14 @@ from tests.unit.mock_for_tests import (
     EXPECTED_RESPONSE_429_ERROR,
     SEARCH_RESPONSE_MOCK,
     EXPECTED_SUCCESS_RESPONSE,
-    RESULT_RESPONCE_MOCK
+    RESULT_RESPONCE_MOCK,
+    EXPECTED_REFER_RESPONSE
 )
 
 
 def routes():
     yield '/observe/observables'
+    yield '/refer/observables'
 
 
 @fixture(scope='module', params=routes(), ids=lambda route: f'POST {route}')
@@ -97,42 +99,50 @@ def test_enrich_call_success(route, client, valid_jwt, valid_json,
 
     data = response.get_json()
 
-    assert data['data']['sightings']['docs'][0].pop('id')
-    assert data['data']['sightings']['docs'][1].pop('id')
-    assert data['data']['judgements']['docs'][0].pop('id')
-    assert data['data']['judgements']['docs'][1].pop('id')
+    if route == 'observe/observables':
 
-    assert data == EXPECTED_SUCCESS_RESPONSE
+        assert data['data']['sightings']['docs'][0].pop('id')
+        assert data['data']['sightings']['docs'][1].pop('id')
+        assert data['data']['judgements']['docs'][0].pop('id')
+        assert data['data']['judgements']['docs'][1].pop('id')
+
+        assert data == EXPECTED_SUCCESS_RESPONSE
+
+    if route == '/refer/observables':
+        assert data['data'][0].pop('id')
+        assert data == EXPECTED_REFER_RESPONSE
 
 
 def test_enrich_error_with_data(route, client, valid_jwt, valid_json_multiple,
                                 url_scan_api_request):
 
-    url_scan_api_request.side_effect = (
-        url_scan_api_response(ok=True),
-        url_scan_api_response(ok=True, payload=RESULT_RESPONCE_MOCK),
-        url_scan_api_response(ok=True, payload=RESULT_RESPONCE_MOCK),
-        url_scan_api_response(
-            ok=False, status_error=HTTPStatus.TOO_MANY_REQUESTS),
-    )
+    if route == 'observe/observables':
 
-    response = client.post(route, headers=headers(valid_jwt),
-                           json=valid_json_multiple)
+        url_scan_api_request.side_effect = (
+            url_scan_api_response(ok=True),
+            url_scan_api_response(ok=True, payload=RESULT_RESPONCE_MOCK),
+            url_scan_api_response(ok=True, payload=RESULT_RESPONCE_MOCK),
+            url_scan_api_response(
+                ok=False, status_error=HTTPStatus.TOO_MANY_REQUESTS),
+        )
 
-    assert response.status_code == HTTPStatus.OK
+        response = client.post(route, headers=headers(valid_jwt),
+                               json=valid_json_multiple)
 
-    data = response.get_json()
+        assert response.status_code == HTTPStatus.OK
 
-    assert data['data']['sightings']['docs'][0].pop('id')
-    assert data['data']['sightings']['docs'][1].pop('id')
-    assert data['data']['judgements']['docs'][0].pop('id')
-    assert data['data']['judgements']['docs'][1].pop('id')
+        data = response.get_json()
 
-    expected_data = {}
-    expected_data.update(EXPECTED_SUCCESS_RESPONSE)
-    expected_data.update(EXPECTED_RESPONSE_429_ERROR)
+        assert data['data']['sightings']['docs'][0].pop('id')
+        assert data['data']['sightings']['docs'][1].pop('id')
+        assert data['data']['judgements']['docs'][0].pop('id')
+        assert data['data']['judgements']['docs'][1].pop('id')
 
-    assert data == expected_data
+        expected_data = {}
+        expected_data.update(EXPECTED_SUCCESS_RESPONSE)
+        expected_data.update(EXPECTED_RESPONSE_429_ERROR)
+
+        assert data == expected_data
 
 
 def test_health_call_auth_error(route, client, valid_jwt, valid_json,
