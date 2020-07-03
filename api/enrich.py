@@ -387,4 +387,4 @@ def refer_observables():
         if output and output['results']:
             g.references.extend(extract_references(observable))
 
-    return jsonify_data(g.references) or jsonify_data({[]})
+    return jsonify_data(g.references)
