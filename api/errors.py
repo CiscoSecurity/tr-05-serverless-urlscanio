@@ -4,7 +4,7 @@ UNKNOWN = 'unknown'
 NOT_FOUND = 'not found'
 INTERNAL = 'internal error'
 TOO_MANY_REQUESTS = 'too many requests'
-SERVER_DOWN = 'web server is down'
+SERVER_UNAVAILABLE = 'service unavailable'
 
 
 class TRError(Exception):
@@ -62,6 +62,15 @@ class URLScanTooManyRequestsError(TRError):
             TOO_MANY_REQUESTS,
             'Too many requests have been made to '
             'URLScan. Please, try again later.'
+        )
+
+
+class URLScanUnavailableError(TRError):
+    def __init__(self):
+
+        super().__init__(
+            SERVER_UNAVAILABLE,
+            'The urlscan.io is unavailable. Please, try again later.'
         )
 
 

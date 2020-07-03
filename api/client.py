@@ -7,7 +7,8 @@ from api.errors import (
     URLScanNotFoundError,
     URLScanInternalServerError,
     URLScanTooManyRequestsError,
-    URLScanUnexpectedResponseError
+    URLScanUnexpectedResponseError,
+    URLScanUnavailableError
 )
 
 
@@ -16,7 +17,10 @@ class URLScanClient:
         HTTPStatus.UNAUTHORIZED: URLScanInvalidCredentialsError,
         HTTPStatus.NOT_FOUND: URLScanNotFoundError,
         HTTPStatus.INTERNAL_SERVER_ERROR: URLScanInternalServerError,
-        HTTPStatus.TOO_MANY_REQUESTS: URLScanTooManyRequestsError
+        HTTPStatus.TOO_MANY_REQUESTS: URLScanTooManyRequestsError,
+        HTTPStatus.BAD_GATEWAY: URLScanUnavailableError,
+        HTTPStatus.SERVICE_UNAVAILABLE: URLScanUnavailableError,
+        HTTPStatus.GATEWAY_TIMEOUT: URLScanUnavailableError
     }
 
     def __init__(self, base_url, api_key, user_agent, observable_types):

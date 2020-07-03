@@ -244,6 +244,17 @@ EXPECTED_RESPONSE_429_ERROR = {
     ]
 }
 
+EXPECTED_RESPONSE_503_ERROR = {
+    'errors': [
+        {
+            'code': 'service unavailable',
+            'message': 'The urlscan.io is unavailable.'
+                       ' Please, try again later.',
+            'type': 'fatal'
+        }
+    ]
+}
+
 EXPECTED_SUCCESS_RESPONSE = {
     'data': {
         'judgements': {

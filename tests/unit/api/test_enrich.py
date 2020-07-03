@@ -9,6 +9,7 @@ from tests.unit.mock_for_tests import (
     EXPECTED_RESPONSE_500_ERROR,
     EXPECTED_RESPONSE_AUTH_ERROR,
     EXPECTED_RESPONSE_429_ERROR,
+    EXPECTED_RESPONSE_503_ERROR,
     SEARCH_RESPONSE_MOCK,
     EXPECTED_SUCCESS_RESPONSE,
     RESULT_RESPONCE_MOCK,
@@ -187,3 +188,14 @@ def test_health_call_429(route, client, valid_jwt, valid_json,
 
     assert response.status_code == HTTPStatus.OK
     assert response.get_json() == EXPECTED_RESPONSE_429_ERROR
+
+
+def test_health_call_503(route, client, valid_jwt, valid_json,
+                         url_scan_api_request):
+    url_scan_api_request.return_value = url_scan_api_response(
+        ok=False, status_error=HTTPStatus.SERVICE_UNAVAILABLE)
+
+    response = client.post(route, headers=headers(valid_jwt), json=valid_json)
+
+    assert response.status_code == HTTPStatus.OK
+    assert response.get_json() == EXPECTED_RESPONSE_503_ERROR
