@@ -289,7 +289,6 @@ def get_search_reference(observable):
     }
 
 
-
 @enrich_api.route('/deliberate/observables', methods=['POST'])
 def deliberate_observables():
     # Not implemented

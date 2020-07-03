@@ -118,8 +118,10 @@ def test_enrich_call_success(route, client, valid_jwt, valid_json,
         relationships_data = data['data']['relationships']
         assert relationships_data['docs'][0].pop('id')
         assert relationships_data['docs'][1].pop('id')
-        assert relationships_data['docs'][0].pop('source_ref') == indicator_id_1
-        assert relationships_data['docs'][1].pop('source_ref') == indicator_id_2
+        assert relationships_data['docs'][0].pop(
+            'source_ref') == indicator_id_1
+        assert relationships_data['docs'][1].pop(
+            'source_ref') == indicator_id_2
         assert relationships_data['docs'][0].pop('target_ref') == sighting_id_1
         assert relationships_data['docs'][1].pop('target_ref') == sighting_id_2
 
@@ -165,8 +167,10 @@ def test_enrich_error_with_data(route, client, valid_jwt, valid_json_multiple,
         relationships_data = data['data']['relationships']
         assert relationships_data['docs'][0].pop('id')
         assert relationships_data['docs'][1].pop('id')
-        assert relationships_data['docs'][0].pop('source_ref') == indicator_id_1
-        assert relationships_data['docs'][1].pop('source_ref') == indicator_id_2
+        assert relationships_data['docs'][0].pop(
+            'source_ref') == indicator_id_1
+        assert relationships_data['docs'][1].pop(
+            'source_ref') == indicator_id_2
         assert relationships_data['docs'][0].pop('target_ref') == sighting_id_1
         assert relationships_data['docs'][1].pop('target_ref') == sighting_id_2
 
