@@ -13,8 +13,7 @@ from tests.unit.mock_for_tests import (
     SEARCH_RESPONSE_MOCK,
     EXPECTED_SUCCESS_RESPONSE,
     RESULT_1_RESPONCE_MOCK,
-    RESULT_2_RESPONCE_MOCK
-    RESULT_RESPONCE_MOCK,
+    RESULT_2_RESPONCE_MOCK,
     EXPECTED_REFER_RESPONSE
 )
 
@@ -102,27 +101,29 @@ def test_enrich_call_success(route, client, valid_jwt, valid_json,
 
     data = response.get_json()
 
-    sightings_data = data['data']['sightings']
-    sighting_id_1 = sightings_data['docs'][0].pop('id')
-    sighting_id_2 = sightings_data['docs'][1].pop('id')
+    if route == '/observa/observables':
 
-    judgements_data = data['data']['judgements']
-    assert judgements_data['docs'][0].pop('id')
-    assert judgements_data['docs'][1].pop('id')
+        sightings_data = data['data']['sightings']
+        sighting_id_1 = sightings_data['docs'][0].pop('id')
+        sighting_id_2 = sightings_data['docs'][1].pop('id')
 
-    indicators_data = data['data']['indicators']
-    indicator_id_1 = indicators_data['docs'][0].pop('id')
-    indicator_id_2 = indicators_data['docs'][1].pop('id')
+        judgements_data = data['data']['judgements']
+        assert judgements_data['docs'][0].pop('id')
+        assert judgements_data['docs'][1].pop('id')
 
-    relationships_data = data['data']['relationships']
-    assert relationships_data['docs'][0].pop('id')
-    assert relationships_data['docs'][1].pop('id')
-    assert relationships_data['docs'][0].pop('source_ref') == indicator_id_1
-    assert relationships_data['docs'][1].pop('source_ref') == indicator_id_2
-    assert relationships_data['docs'][0].pop('target_ref') == sighting_id_1
-    assert relationships_data['docs'][1].pop('target_ref') == sighting_id_2
+        indicators_data = data['data']['indicators']
+        indicator_id_1 = indicators_data['docs'][0].pop('id')
+        indicator_id_2 = indicators_data['docs'][1].pop('id')
 
-    assert data == EXPECTED_SUCCESS_RESPONSE
+        relationships_data = data['data']['relationships']
+        assert relationships_data['docs'][0].pop('id')
+        assert relationships_data['docs'][1].pop('id')
+        assert relationships_data['docs'][0].pop('source_ref') == indicator_id_1
+        assert relationships_data['docs'][1].pop('source_ref') == indicator_id_2
+        assert relationships_data['docs'][0].pop('target_ref') == sighting_id_1
+        assert relationships_data['docs'][1].pop('target_ref') == sighting_id_2
+
+        assert data == EXPECTED_SUCCESS_RESPONSE
 
     if route == '/refer/observables':
         assert data['data'][0].pop('id')
@@ -132,46 +133,48 @@ def test_enrich_call_success(route, client, valid_jwt, valid_json,
 def test_enrich_error_with_data(route, client, valid_jwt, valid_json_multiple,
                                 url_scan_api_request):
 
-    url_scan_api_request.side_effect = (
-        url_scan_api_response(ok=True),
-        url_scan_api_response(ok=True, payload=RESULT_1_RESPONCE_MOCK),
-        url_scan_api_response(ok=True, payload=RESULT_2_RESPONCE_MOCK),
-        url_scan_api_response(
-            ok=False, status_error=HTTPStatus.TOO_MANY_REQUESTS),
-    )
+    if route == '/observe/observables':
 
-    response = client.post(route, headers=headers(valid_jwt),
-                           json=valid_json_multiple)
+        url_scan_api_request.side_effect = (
+            url_scan_api_response(ok=True),
+            url_scan_api_response(ok=True, payload=RESULT_1_RESPONCE_MOCK),
+            url_scan_api_response(ok=True, payload=RESULT_2_RESPONCE_MOCK),
+            url_scan_api_response(
+                ok=False, status_error=HTTPStatus.TOO_MANY_REQUESTS),
+        )
 
-    assert response.status_code == HTTPStatus.OK
+        response = client.post(route, headers=headers(valid_jwt),
+                               json=valid_json_multiple)
 
-    data = response.get_json()
+        assert response.status_code == HTTPStatus.OK
 
-    sightings_data = data['data']['sightings']
-    sighting_id_1 = sightings_data['docs'][0].pop('id')
-    sighting_id_2 = sightings_data['docs'][1].pop('id')
+        data = response.get_json()
 
-    judgements_data = data['data']['judgements']
-    assert judgements_data['docs'][0].pop('id')
-    assert judgements_data['docs'][1].pop('id')
+        sightings_data = data['data']['sightings']
+        sighting_id_1 = sightings_data['docs'][0].pop('id')
+        sighting_id_2 = sightings_data['docs'][1].pop('id')
 
-    indicators_data = data['data']['indicators']
-    indicator_id_1 = indicators_data['docs'][0].pop('id')
-    indicator_id_2 = indicators_data['docs'][1].pop('id')
+        judgements_data = data['data']['judgements']
+        assert judgements_data['docs'][0].pop('id')
+        assert judgements_data['docs'][1].pop('id')
 
-    relationships_data = data['data']['relationships']
-    assert relationships_data['docs'][0].pop('id')
-    assert relationships_data['docs'][1].pop('id')
-    assert relationships_data['docs'][0].pop('source_ref') == indicator_id_1
-    assert relationships_data['docs'][1].pop('source_ref') == indicator_id_2
-    assert relationships_data['docs'][0].pop('target_ref') == sighting_id_1
-    assert relationships_data['docs'][1].pop('target_ref') == sighting_id_2
+        indicators_data = data['data']['indicators']
+        indicator_id_1 = indicators_data['docs'][0].pop('id')
+        indicator_id_2 = indicators_data['docs'][1].pop('id')
 
-    expected_data = {}
-    expected_data.update(EXPECTED_SUCCESS_RESPONSE)
-    expected_data.update(EXPECTED_RESPONSE_429_ERROR)
+        relationships_data = data['data']['relationships']
+        assert relationships_data['docs'][0].pop('id')
+        assert relationships_data['docs'][1].pop('id')
+        assert relationships_data['docs'][0].pop('source_ref') == indicator_id_1
+        assert relationships_data['docs'][1].pop('source_ref') == indicator_id_2
+        assert relationships_data['docs'][0].pop('target_ref') == sighting_id_1
+        assert relationships_data['docs'][1].pop('target_ref') == sighting_id_2
 
-    assert data == expected_data
+        expected_data = {}
+        expected_data.update(EXPECTED_SUCCESS_RESPONSE)
+        expected_data.update(EXPECTED_RESPONSE_429_ERROR)
+
+        assert data == expected_data
 
 
 def test_health_call_auth_error(route, client, valid_jwt, valid_json,
