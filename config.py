@@ -61,4 +61,19 @@ class Config:
         'disposition_name': 'Malicious',
         'disposition': 2
     }
+
+    CTIM_INDICATOR_DEFAULT = {
+        'type': 'indicator',
+        'schema_version': CTIM_SCHEMA_VERSION,
+        'producer': URL_SCAN_SOURCE_NAME,
+        'confidence': 'High'
+    }
+
+    CTIM_RELATIONSHIPS_DEFAULT = {
+        'type': 'relationship',
+        'relationship_type': 'indicates',
+        'schema_version': CTIM_SCHEMA_VERSION
+    }
+
+    CTIM_INDICATOR_DESCRIPTION_TEMPLATE = 'Сlassified as {category}'
     CTIM_VALID_DAYS_PERIOD = 7

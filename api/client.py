@@ -36,6 +36,8 @@ class URLScanClient:
         else:
             if response.status_code in self.expected_response_errors:
                 raise self.expected_response_errors[response.status_code]
+            elif response.status_code == HTTPStatus.BAD_REQUEST:
+                return {}
             else:
                 raise URLScanUnexpectedResponseError(response)
 
