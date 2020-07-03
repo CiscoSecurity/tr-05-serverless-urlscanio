@@ -127,6 +127,12 @@ def extract_sighting(output, search_result):
     }
 
     sighting_id = f'transient:sighting-{uuid4()}'
+    output['relationships'].update({
+        search_result['_id']: {
+            'indicators_id': [],
+            'sighting_id': sighting_id
+        }
+    })
 
     doc = {
         'id': sighting_id,
@@ -176,6 +182,62 @@ def extract_judgement(output, result_output):
     }
 
     return doc
+
+
+def extract_indicator(output, result_output, category):
+    start_time = datetime.strptime(
+        result_output['task']['time'].split('+')[0],
+        '%Y-%m-%dT%H:%M:%S.%fZ'
+    )
+
+    valid_time = {
+        'start_time': start_time.isoformat(
+            timespec='microseconds') + 'Z'
+    }
+
+    indicator_id = f'transient:indicator-{uuid4()}'
+    output['relationships'][result_output['task']['uuid']][
+        'indicators_id'].append(indicator_id)
+
+    doc = {
+        'id': indicator_id,
+        'valid_time': valid_time,
+        'external_ids': [result_output['task']['uuid']],
+        'title': category,
+        'tags': result_output['verdicts']['overall']['tags'],
+        'external_references': get_external_references(result_output),
+        'description':
+            current_app.config['CTIM_INDICATOR_DESCRIPTION_TEMPLATE'].format(
+                category=category),
+        'short_description':
+            current_app.config['CTIM_INDICATOR_DESCRIPTION_TEMPLATE'].format(
+                category=category),
+        **current_app.config['CTIM_INDICATOR_DEFAULT']
+    }
+
+    return doc
+
+
+def extract_relationships(relationships):
+    docs = []
+
+    for key in relationships.keys():
+        relation = relationships[key]
+        sighting_id = relation['sighting_id']
+
+        for indicator_id in relation['indicators_id']:
+            relationship_id = f'transient:relationship-{uuid4()}'
+
+            doc = {
+                'id': relationship_id,
+                'source_ref': indicator_id,
+                'target_ref': sighting_id,
+                **current_app.config['CTIM_RELATIONSHIPS_DEFAULT']
+            }
+
+            docs.append(doc)
+
+    return docs
 
 
 def extract_references(observable):
@@ -253,12 +315,15 @@ def observe_observables():
 
     g.sightings = []
     g.judgements = []
+    g.indicators = []
+    g.relationships = []
 
     for observable in observables:
 
         output = client.get_search_data(observable)
 
         if output:
+            output['relationships'] = {}
 
             search_results = output['results']
             search_results.sort(key=lambda x: x['task']['time'], reverse=True)
@@ -271,9 +336,16 @@ def observe_observables():
                 g.sightings.append(extract_sighting(output, search_result))
 
                 result_output = client.get_result_data(search_result['_id'])
-                if result_output['verdicts']['overall']['malicious']:
+                if result_output and \
+                        result_output['verdicts']['overall']['malicious']:
                     g.judgements.append(
                         extract_judgement(output, result_output))
+                    for category in \
+                            result_output['verdicts']['overall']['categories']:
+                        g.indicators.append(
+                            extract_indicator(output, result_output, category))
+            g.relationships.extend(
+                extract_relationships(output['relationships']))
 
     relay_output = {}
 
@@ -281,6 +353,10 @@ def observe_observables():
         relay_output['sightings'] = format_docs(g.sightings)
     if g.judgements:
         relay_output['judgements'] = format_docs(g.judgements)
+    if g.indicators:
+        relay_output['indicators'] = format_docs(g.indicators)
+    if g.relationships:
+        relay_output['relationships'] = format_docs(g.relationships)
 
     return jsonify_data(relay_output)
 

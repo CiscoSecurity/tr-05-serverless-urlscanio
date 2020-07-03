@@ -76,6 +76,9 @@ def jsonify_errors(error):
     if g.get('judgements'):
         data['data'].update({'judgements': format_docs(g.judgements)})
 
+    if g.get('relationships'):
+        data['data'].update({'relationships': format_docs(g.relationships)})
+
     if not data['data']:
         data.pop('data')
 
