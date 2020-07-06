@@ -1,6 +1,7 @@
 from uuid import uuid4
 from functools import partial
 from datetime import datetime, timedelta
+from urllib.parse import quote
 
 from flask import Blueprint, g, current_app
 
@@ -239,6 +240,55 @@ def extract_relationships(relationships):
     return docs
 
 
+def extract_references(observable):
+    references = []
+    if observable['type'] in current_app.config['URL_SCAN_BROWSE_TYPES']:
+        references.append(get_browse_reference(observable))
+    if observable['type'] in current_app.config['URL_SCAN_SEARCH_TYPES']:
+        references.append(get_search_reference(observable))
+    return references
+
+
+def get_browse_reference(observable):
+    return {
+        'id': f'ref-urlscan-browse-{observable["type"]}-'
+              f'{quote(observable["value"], safe="")}',
+        'title': (
+            f'Browse {observable["type"]}'
+        ),
+        'description': (
+            f'Check this {observable["type"]} status with urlscan.io'
+        ),
+        'url': (
+            current_app.config['URL_SCAN_UI_BROWSE'].format(
+                type=observable['type'],
+                value=observable['value']
+            )
+        ),
+        'categories': ['Browse', 'urlscan.io'],
+    }
+
+
+def get_search_reference(observable):
+    return {
+        'id': f'ref-urlscan-search-{observable["type"]}-'
+              f'{quote(observable["value"], safe="")}',
+        'title': (
+            f'Search {observable["type"]}'
+        ),
+        'description': (
+            f'Check this {observable["type"]} status with urlscan.io'
+        ),
+        'url': (
+            current_app.config['URL_SCAN_UI_SEARCH'].format(
+                params=current_app.config['URL_SCAN_SEARCH_TYPES'][
+                    observable['type']].format(value=observable['value'])
+            )
+        ),
+        'categories': ['Search', 'urlscan.io'],
+    }
+
+
 @enrich_api.route('/deliberate/observables', methods=['POST'])
 def deliberate_observables():
     # Not implemented
@@ -312,6 +362,29 @@ def observe_observables():
 
 @enrich_api.route('/refer/observables', methods=['POST'])
 def refer_observables():
-    _ = get_jwt()
-    _ = get_observables()
-    return jsonify_data([])
+    relay_input = get_json(ObservableSchema(many=True))
+
+    observables = group_observables(relay_input)
+
+    if not observables:
+        return jsonify_data({})
+
+    api_key = get_jwt().get('key', '')
+
+    client = URLScanClient(
+        base_url=current_app.config['URL_SCAN_API_URL'],
+        api_key=api_key,
+        user_agent=current_app.config['USER_AGENT'],
+        observable_types=current_app.config['URL_SCAN_OBSERVABLE_TYPES']
+    )
+
+    g.references = []
+
+    for observable in observables:
+
+        output = client.get_search_data(observable)
+
+        if output and output['results']:
+            g.references.extend(extract_references(observable))
+
+    return jsonify_data(g.references)
