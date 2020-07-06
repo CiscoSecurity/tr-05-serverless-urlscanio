@@ -12,6 +12,20 @@ class Config:
 
     URL_SCAN_API_URL = 'https://urlscan.io/api/v1/{endpoint}'
     URL_SCAN_UI_URL = 'https://urlscan.io/result/{id}'
+    URL_SCAN_UI_BROWSE = 'https://urlscan.io/{type}/{value}'
+    URL_SCAN_UI_SEARCH = 'https://urlscan.io/search/{params}'
+
+    URL_SCAN_BROWSE_TYPES = {
+        'ip': 'ip',
+        'ipv6': 'ip',
+        'domain': 'domain'
+    }
+    URL_SCAN_SEARCH_TYPES = {
+        'ip': '#ip:{value}',
+        'ipv6': '#ip:{value}',
+        'domain': '#domain:{value}',
+        'url': '#"{value}"'
+    }
 
     URL_SCAN_HEALTH_CHECK_OBSERVABLE = {
         'type': 'ip',

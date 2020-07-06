@@ -514,6 +514,17 @@ EXPECTED_RESPONSE_429_ERROR = {
     ]
 }
 
+EXPECTED_RESPONSE_503_ERROR = {
+    'errors': [
+        {
+            'code': 'service unavailable',
+            'message': 'The urlscan.io is unavailable.'
+                       ' Please, try again later.',
+            'type': 'fatal'
+        }
+    ]
+}
+
 EXPECTED_SUCCESS_RESPONSE = {
     'data': {
         'indicators': {
@@ -875,4 +886,22 @@ EXPECTED_SUCCESS_RESPONSE = {
             ]
         }
     }
+}
+
+EXPECTED_REFER_RESPONSE = {
+    'data': [
+        {
+            'categories': ['Browse', 'urlscan.io'],
+            'description': 'Check this ip status with urlscan.io',
+            'title': 'Browse ip',
+            'url': 'https://urlscan.io/ip/1.1.1.1'
+        },
+        {
+            'categories': ['Search', 'urlscan.io'],
+            'description': 'Check this ip status with urlscan.io',
+            'id': 'ref-urlscan-search-ip-1.1.1.1',
+            'title': 'Search ip',
+            'url': 'https://urlscan.io/search/#ip:1.1.1.1'
+        }
+    ]
 }
