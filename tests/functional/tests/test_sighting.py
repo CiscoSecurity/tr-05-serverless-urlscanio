@@ -1,6 +1,7 @@
+import pytest
 from ctrlibrary.core.utils import get_observables
 from ctrlibrary.threatresponse.enrich import enrich_observe_observables
-import pytest
+from tests.functional.tests.constants import MODULE_NAME, CONFIDENCE_LEVEL
 
 
 @pytest.mark.parametrize(
@@ -8,6 +9,8 @@ import pytest
     (
         ('ip', '185.143.172.209'),
         ('domain', 'doodle.com'),
+        ('ipv6', '2606:4700:3036::6818:62bd'),
+        ('url', 'http://gasimanai.ml/zanku/PvqDq929BSx_A_D_M1n_a.php'),
     )
 )
 def test_positive_sighting(module_headers, observable, observable_type):
@@ -32,14 +35,13 @@ def test_positive_sighting(module_headers, observable, observable_type):
         **{'headers': module_headers}
     )['data']
     response_from_urlscan_module = get_observables(
-        response_from_all_modules, 'urlscan.io')
+        response_from_all_modules, MODULE_NAME)
 
-    assert response_from_urlscan_module['module'] == 'urlscan.io'
+    assert response_from_urlscan_module['module'] == MODULE_NAME
     assert response_from_urlscan_module['module_instance_id']
     assert response_from_urlscan_module['module_type_id']
 
     sightings = response_from_urlscan_module['data']['sightings']
-    confidence_levels = ['High', 'Info', 'Low', 'Medium', 'None', 'Unknown']
 
     assert len(sightings['docs']) > 0
 
@@ -49,13 +51,13 @@ def test_positive_sighting(module_headers, observable, observable_type):
         assert sighting['relations']
         assert sighting['observables'][0] == observables[0]
         assert sighting['type'] == 'sighting'
-        assert sighting['source'] == 'urlscan.io'
+        assert sighting['source'] == MODULE_NAME
         assert sighting['external_ids']
         assert sighting['internal'] is False
-        assert sighting['source_uri'].startswith('https://urlscan.io/')
+        assert sighting['source_uri'].startswith(f'https://{MODULE_NAME}/')
         assert sighting['id'].startswith('transient:sighting')
         assert sighting['count'] == 1
-        assert sighting['confidence'] in confidence_levels
+        assert sighting['confidence'] == CONFIDENCE_LEVEL
         assert sighting['observed_time']['start_time']
         assert sighting['data']['columns']
         assert sighting['data']['rows']
