@@ -21,7 +21,7 @@ class Config:
         'domain': 'domain'
     }
     URL_SCAN_SEARCH_TYPES = {
-        'ip': '#ip:{value}',
+        'ip': '#ip:"{value}"',
         'ipv6': '#ip:"{value}"',
         'domain': '#domain:{value}',
         'url': '#"{value}"'
