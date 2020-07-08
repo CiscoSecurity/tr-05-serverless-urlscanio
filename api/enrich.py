@@ -261,7 +261,8 @@ def get_browse_reference(observable):
         ),
         'url': (
             current_app.config['URL_SCAN_UI_BROWSE'].format(
-                type=observable['type'],
+                type=current_app.config['URL_SCAN_BROWSE_TYPES'][
+                    observable['type']],
                 value=observable['value']
             )
         ),
