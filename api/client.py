@@ -27,7 +27,7 @@ class URLScanClient:
         self.base_url = base_url
         self.headers = {
             'Accept': 'application/json',
-            'X-API-Key': api_key,
+            'API-Key': api_key,
             'User-Agent': user_agent
         }
         self.observable_types = observable_types
@@ -49,6 +49,10 @@ class URLScanClient:
         response = requests.get(url, headers=self.headers, **kwargs)
         return self._get_response_data(response)
 
+    def _post(self, url, data, **kwargs):
+        response = requests.post(url, json=data, headers=self.headers, **kwargs)
+        return self._get_response_data(response)
+
     def _join_url(self, endpoint):
         return self.base_url.format(endpoint=endpoint)
 
@@ -66,3 +70,12 @@ class URLScanClient:
         endpoint = 'result/{}'.format(id_)
         url = self._join_url(endpoint)
         return self._get(url)
+
+    def make_scan(self, observable):
+        url = self._join_url('scan')
+        data = {
+            'url': observable,
+            "public": "on"
+        }
+        result = self._post(url, data)
+        return result

@@ -38,6 +38,7 @@ class Config:
         'domain': 'domain:"{observable}"',
         'url': 'page.url:"{observable}"'
     }
+    URL_SCAN_SCAN_OBSERVABLES = ['url']
 
     URL_SCAN_REFERENCES_OBJECTS = ['domURL', 'screenshotURL', 'reportURL']
 
