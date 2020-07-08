@@ -51,7 +51,8 @@ class URLScanClient:
         return self._get_response_data(response)
 
     def _post(self, url, data, **kwargs):
-        response = requests.post(url, json=data, headers=self.headers, **kwargs)
+        response = requests.post(url, json=data, headers=self.headers,
+                                 **kwargs)
         return self._get_response_data(response)
 
     def _join_url(self, endpoint):
