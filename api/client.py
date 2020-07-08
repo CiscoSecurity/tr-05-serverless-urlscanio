@@ -8,7 +8,8 @@ from api.errors import (
     URLScanInternalServerError,
     URLScanTooManyRequestsError,
     URLScanUnexpectedResponseError,
-    URLScanUnavailableError
+    URLScanUnavailableError,
+    URLScanBadRequestError
 )
 
 
@@ -78,4 +79,6 @@ class URLScanClient:
             "public": "on"
         }
         result = self._post(url, data)
+        if not result:
+            raise URLScanBadRequestError
         return result
