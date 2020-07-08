@@ -19,8 +19,8 @@ from tests.unit.mock_for_tests import (
 
 
 def routes():
-    yield '/observe/observables'
-    yield '/refer/observables'
+    yield '/respond/observables'
+    yield '/respond/trigger'
 
 
 @fixture(scope='module', params=routes(), ids=lambda route: f'POST {route}')
@@ -51,7 +51,7 @@ def url_scan_api_response(*, ok, payload=None, status_error=None):
 
 
 @fixture(scope='module')
-def invalid_json():
+def invalid_observables_json():
     return [{'type': 'unknown', 'value': ''}]
 
 
@@ -76,18 +76,10 @@ def test_enrich_call_with_invalid_json_failure(route, client, valid_jwt,
 
 @fixture(scope='module')
 def valid_json():
-    return [{'type': 'ip', 'value': '1.1.1.1'}]
+    return [{'type': 'url', 'value': 'https://test.com'}]
 
 
-@fixture(scope='module')
-def valid_json_multiple():
-    return [
-        {'type': 'ip', 'value': '1.1.1.1'},
-        {'type': 'ip', 'value': '2.2.2.2'},
-    ]
-
-
-def test_enrich_call_success(route, client, valid_jwt, valid_json,
+def test_respond_call_success(route, client, valid_jwt, valid_json,
                              url_scan_api_request):
     url_scan_api_request.side_effect = (
         url_scan_api_response(ok=True),
@@ -181,7 +173,7 @@ def test_enrich_error_with_data(route, client, valid_jwt, valid_json_multiple,
         assert data == expected_data
 
 
-def test_enrich_call_auth_error(route, client, valid_jwt, valid_json,
+def test_health_call_auth_error(route, client, valid_jwt, valid_json,
                                 url_scan_api_request):
     url_scan_api_request.return_value = url_scan_api_response(
         ok=False, status_error=HTTPStatus.UNAUTHORIZED)
@@ -192,7 +184,7 @@ def test_enrich_call_auth_error(route, client, valid_jwt, valid_json,
     assert response.get_json() == EXPECTED_RESPONSE_AUTH_ERROR
 
 
-def test_enrich_call_404(route, client, valid_jwt, valid_json,
+def test_health_call_404(route, client, valid_jwt, valid_json,
                          url_scan_api_request):
     url_scan_api_request.return_value = url_scan_api_response(
         ok=False, status_error=HTTPStatus.NOT_FOUND)
@@ -203,7 +195,7 @@ def test_enrich_call_404(route, client, valid_jwt, valid_json,
     assert response.get_json() == EXPECTED_RESPONSE_404_ERROR
 
 
-def test_enrich_call_500(route, client, valid_jwt, valid_json,
+def test_health_call_500(route, client, valid_jwt, valid_json,
                          url_scan_api_request):
     url_scan_api_request.return_value = url_scan_api_response(
         ok=False, status_error=HTTPStatus.INTERNAL_SERVER_ERROR)
@@ -214,7 +206,7 @@ def test_enrich_call_500(route, client, valid_jwt, valid_json,
     assert response.get_json() == EXPECTED_RESPONSE_500_ERROR
 
 
-def test_enrich_call_429(route, client, valid_jwt, valid_json,
+def test_health_call_429(route, client, valid_jwt, valid_json,
                          url_scan_api_request):
     url_scan_api_request.return_value = url_scan_api_response(
         ok=False, status_error=HTTPStatus.TOO_MANY_REQUESTS)
@@ -225,7 +217,7 @@ def test_enrich_call_429(route, client, valid_jwt, valid_json,
     assert response.get_json() == EXPECTED_RESPONSE_429_ERROR
 
 
-def test_enrich_call_503(route, client, valid_jwt, valid_json,
+def test_health_call_503(route, client, valid_jwt, valid_json,
                          url_scan_api_request):
     url_scan_api_request.return_value = url_scan_api_response(
         ok=False, status_error=HTTPStatus.SERVICE_UNAVAILABLE)
