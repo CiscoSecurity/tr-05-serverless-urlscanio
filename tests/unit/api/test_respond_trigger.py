@@ -10,7 +10,6 @@ from tests.unit.mock_for_tests import (
     EXPECTED_RESPONSE_AUTH_ERROR,
     EXPECTED_RESPONSE_429_ERROR,
     EXPECTED_RESPONSE_503_ERROR,
-    SEARCH_RESPONSE_MOCK,
     SCAN_RESPONSE_MOCK
 )
 
@@ -80,7 +79,7 @@ def valid_json():
 
 
 def test_respond_trigger_call_success(route, client, valid_jwt, valid_json,
-                             url_scan_api_request):
+                                      url_scan_api_request):
     url_scan_api_request.return_value = url_scan_api_response(ok=True)
 
     response = client.post(route, headers=headers(valid_jwt), json=valid_json)
@@ -93,7 +92,7 @@ def test_respond_trigger_call_success(route, client, valid_jwt, valid_json,
 
 
 def test_respond_trigger_call_auth_error(route, client, valid_jwt, valid_json,
-                                url_scan_api_request):
+                                         url_scan_api_request):
     url_scan_api_request.return_value = url_scan_api_response(
         ok=False, status_error=HTTPStatus.UNAUTHORIZED)
 
@@ -104,7 +103,7 @@ def test_respond_trigger_call_auth_error(route, client, valid_jwt, valid_json,
 
 
 def test_respond_trigger_call_404(route, client, valid_jwt, valid_json,
-                         url_scan_api_request):
+                                  url_scan_api_request):
     url_scan_api_request.return_value = url_scan_api_response(
         ok=False, status_error=HTTPStatus.NOT_FOUND)
 
@@ -115,7 +114,7 @@ def test_respond_trigger_call_404(route, client, valid_jwt, valid_json,
 
 
 def test_respond_trigger_call_500(route, client, valid_jwt, valid_json,
-                         url_scan_api_request):
+                                  url_scan_api_request):
     url_scan_api_request.return_value = url_scan_api_response(
         ok=False, status_error=HTTPStatus.INTERNAL_SERVER_ERROR)
 
@@ -126,7 +125,7 @@ def test_respond_trigger_call_500(route, client, valid_jwt, valid_json,
 
 
 def test_respond_trigger_call_429(route, client, valid_jwt, valid_json,
-                         url_scan_api_request):
+                                  url_scan_api_request):
     url_scan_api_request.return_value = url_scan_api_response(
         ok=False, status_error=HTTPStatus.TOO_MANY_REQUESTS)
 
@@ -137,7 +136,7 @@ def test_respond_trigger_call_429(route, client, valid_jwt, valid_json,
 
 
 def test_respond_trigger_call_503(route, client, valid_jwt, valid_json,
-                         url_scan_api_request):
+                                  url_scan_api_request):
     url_scan_api_request.return_value = url_scan_api_response(
         ok=False, status_error=HTTPStatus.SERVICE_UNAVAILABLE)
 

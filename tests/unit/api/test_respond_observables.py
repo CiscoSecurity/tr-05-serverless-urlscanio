@@ -55,4 +55,4 @@ def test_respond_observables_call_success(route, client, valid_jwt,
     data = response.get_json()
 
     assert data['data'][0].pop('id')
-    assert  data['data'][0] == EXPECTED_RESPOND_OBSERVABLE_RESPONSE
+    assert data['data'][0] == EXPECTED_RESPOND_OBSERVABLE_RESPONSE
