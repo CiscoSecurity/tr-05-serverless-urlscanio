@@ -1,0 +1,2 @@
+MODULE_NAME = 'urlscan.io'
+CONFIDENCE_LEVEL = SEVERITY_LEVEL = 'High'
