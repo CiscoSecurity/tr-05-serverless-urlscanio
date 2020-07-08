@@ -901,7 +901,7 @@ EXPECTED_REFER_RESPONSE = {
             'description': 'Check this ip status with urlscan.io',
             'id': 'ref-urlscan-search-ip-1.1.1.1',
             'title': 'Search ip',
-            'url': 'https://urlscan.io/search/#ip:1.1.1.1'
+            'url': 'https://urlscan.io/search/#ip:"1.1.1.1"'
         }
     ]
 }
