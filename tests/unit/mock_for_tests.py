@@ -67,6 +67,22 @@ SEARCH_RESPONSE_MOCK = {
   ]
 }
 
+SCAN_RESPONSE_MOCK = {
+    "message": "Submission successful",
+    "uuid": "44b823fb-579d-4b0f-8727-a2357b7e9be9",
+    "result": "https://urlscan.io/result/"
+              "44b823fb-579d-4b0f-8727-a2357b7e9be9/",
+    "api": "https://urlscan.io/api/v1/result/"
+           "44b823fb-579d-4b0f-8727-a2357b7e9be9/",
+    "visibility": "private",
+    "options": {
+        "useragent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5)"
+                     " AppleWebKit/537.36 (KHTML, like Gecko)"
+                     " Chrome/83.0.4103.61 Safari/537.36"
+    },
+    "url": "https://test.com"
+}
+
 RESULT_RESPONCE_MOCK = {
     "task": {
         "uuid": "e9bbe3d0-08e8-410c-86e9-59af6cc4daed",
@@ -749,7 +765,8 @@ EXPECTED_SUCCESS_RESPONSE = {
                         }
                     ],
                     'observed_time': {
-                        'start_time': '2020-06-02T21:35:21.586000Z'
+                        'start_time': '2020-06-02T21:35:21.586000Z',
+                        'end_time': '2020-06-02T21:35:21.586000Z'
                     },
                     'relations': [
                         {
@@ -837,7 +854,8 @@ EXPECTED_SUCCESS_RESPONSE = {
                         }
                     ],
                     'observed_time': {
-                        'start_time': '2020-06-02T19:33:14.851000Z'
+                        'start_time': '2020-06-02T19:33:14.851000Z',
+                        'end_time': '2020-06-02T19:33:14.851000Z'
                     },
                     'relations': [
                         {
@@ -904,4 +922,14 @@ EXPECTED_REFER_RESPONSE = {
             'url': 'https://urlscan.io/search/#ip:1.1.1.1'
         }
     ]
+}
+
+EXPECTED_RESPOND_OBSERVABLE_RESPONSE = {
+    'categories': ['urlscan.io', 'Scan'],
+    'description': 'Makes a request to scan this observable',
+    'query-params': {
+        'observable_type': 'url',
+        'observable_value': 'https://test.com'
+    },
+    'title': 'Make Scan in urlscan.io'
 }

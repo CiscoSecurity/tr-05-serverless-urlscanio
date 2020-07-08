@@ -30,8 +30,8 @@ def extract_action(observable):
     return {
         'id': f'respond-urlscan-action-{observable["type"]}-'
               f'{quote(observable["value"], safe="")}',
-        'title': 'From SecureX threat response',
-        'description': 'Performed via SecureX Threat Response',
+        'title': 'Make Scan in urlscan.io',
+        'description': 'Makes a request to scan this observable',
         'categories': ['urlscan.io', 'Scan'],
         'query-params': {
             'observable_value': observable['value'],
