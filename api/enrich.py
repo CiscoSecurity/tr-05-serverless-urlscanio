@@ -17,9 +17,6 @@ from api.client import URLScanClient
 enrich_api = Blueprint('enrich', __name__)
 
 
-get_observables = partial(get_json, schema=ObservableSchema(many=True))
-
-
 def group_observables(relay_input):
     # Leave only unique pairs.
 

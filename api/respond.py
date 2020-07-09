@@ -10,10 +10,6 @@ from api.client import URLScanClient
 respond_api = Blueprint('respond', __name__)
 
 
-get_observables = partial(get_json, schema=ObservableSchema(many=True))
-get_action_form_params = partial(get_json, schema=ActionFormParamsSchema())
-
-
 def get_scan_observables(relay_input):
     result = []
     for obj in relay_input:
