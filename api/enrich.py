@@ -1,5 +1,4 @@
 from uuid import uuid4
-from functools import partial
 from datetime import datetime, timedelta
 from urllib.parse import quote
 

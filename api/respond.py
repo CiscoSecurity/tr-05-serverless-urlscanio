@@ -1,4 +1,3 @@
-from functools import partial
 from urllib.parse import quote
 
 from flask import Blueprint, current_app, g
