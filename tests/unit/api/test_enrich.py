@@ -181,7 +181,7 @@ def test_enrich_error_with_data(route, client, valid_jwt, valid_json_multiple,
         assert data == expected_data
 
 
-def test_health_call_auth_error(route, client, valid_jwt, valid_json,
+def test_enrich_call_auth_error(route, client, valid_jwt, valid_json,
                                 url_scan_api_request):
     url_scan_api_request.return_value = url_scan_api_response(
         ok=False, status_error=HTTPStatus.UNAUTHORIZED)
@@ -192,7 +192,7 @@ def test_health_call_auth_error(route, client, valid_jwt, valid_json,
     assert response.get_json() == EXPECTED_RESPONSE_AUTH_ERROR
 
 
-def test_health_call_404(route, client, valid_jwt, valid_json,
+def test_enrich_call_404(route, client, valid_jwt, valid_json,
                          url_scan_api_request):
     url_scan_api_request.return_value = url_scan_api_response(
         ok=False, status_error=HTTPStatus.NOT_FOUND)
@@ -203,7 +203,7 @@ def test_health_call_404(route, client, valid_jwt, valid_json,
     assert response.get_json() == EXPECTED_RESPONSE_404_ERROR
 
 
-def test_health_call_500(route, client, valid_jwt, valid_json,
+def test_enrich_call_500(route, client, valid_jwt, valid_json,
                          url_scan_api_request):
     url_scan_api_request.return_value = url_scan_api_response(
         ok=False, status_error=HTTPStatus.INTERNAL_SERVER_ERROR)
@@ -214,7 +214,7 @@ def test_health_call_500(route, client, valid_jwt, valid_json,
     assert response.get_json() == EXPECTED_RESPONSE_500_ERROR
 
 
-def test_health_call_429(route, client, valid_jwt, valid_json,
+def test_enrich_call_429(route, client, valid_jwt, valid_json,
                          url_scan_api_request):
     url_scan_api_request.return_value = url_scan_api_response(
         ok=False, status_error=HTTPStatus.TOO_MANY_REQUESTS)
@@ -225,7 +225,7 @@ def test_health_call_429(route, client, valid_jwt, valid_json,
     assert response.get_json() == EXPECTED_RESPONSE_429_ERROR
 
 
-def test_health_call_503(route, client, valid_jwt, valid_json,
+def test_enrich_call_503(route, client, valid_jwt, valid_json,
                          url_scan_api_request):
     url_scan_api_request.return_value = url_scan_api_response(
         ok=False, status_error=HTTPStatus.SERVICE_UNAVAILABLE)

@@ -5,6 +5,7 @@ NOT_FOUND = 'not found'
 INTERNAL = 'internal error'
 TOO_MANY_REQUESTS = 'too many requests'
 SERVER_UNAVAILABLE = 'service unavailable'
+BAD_REQUEST = 'bad request'
 
 
 class TRError(Exception):
@@ -71,6 +72,16 @@ class URLScanUnavailableError(TRError):
         super().__init__(
             SERVER_UNAVAILABLE,
             'The urlscan.io is unavailable. Please, try again later.'
+        )
+
+
+class URLScanBadRequestError(TRError):
+    def __init__(self):
+
+        super().__init__(
+            BAD_REQUEST,
+            'You sent weird url. '
+            'Please check the correctness of your url and try again.'
         )
 
 
