@@ -1,5 +1,4 @@
 from uuid import uuid4
-from functools import partial
 from datetime import datetime, timedelta
 from urllib.parse import quote
 
@@ -15,9 +14,6 @@ from api.utils import (
 from api.client import URLScanClient
 
 enrich_api = Blueprint('enrich', __name__)
-
-
-get_observables = partial(get_json, schema=ObservableSchema(many=True))
 
 
 def group_observables(relay_input):
@@ -118,6 +114,8 @@ def extract_sighting(output, search_result):
 
     observed_time = {
         'start_time': start_time.isoformat(
+            timespec='microseconds') + 'Z',
+        'end_time': start_time.isoformat(
             timespec='microseconds') + 'Z',
     }
 
