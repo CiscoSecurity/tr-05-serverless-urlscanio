@@ -549,32 +549,7 @@ EXPECTED_SUCCESS_RESPONSE = {
                 {
                     'confidence': 'High',
                     'description': 'Сlassified as coinmining',
-                    'external_ids': [
-                        '13cde17f-a7f5-4e27-8a56-5e81bc086a37'
-                    ],
-                    'external_references': [
-                        {
-                            'description': 'domURL',
-                            'source_name': 'urlscan.io',
-                            'url': 'https://urlscan.io/dom/'
-                                   'e9bbe3d0-08e8-410c-86e9-59af6cc4daed/'
-                        },
-                        {
-                            'description': 'screenshotURL',
-                            'source_name': 'urlscan.io',
-                            'url': 'https://urlscan.io/screenshots/'
-                                   'e9bbe3d0-08e8-410c-86e9-59af6cc4daed.png'
-                        },
-                        {
-                            'description': 'reportURL',
-                            'source_name': 'urlscan.io',
-                            'url': 'https://urlscan.io/result/'
-                                   'e9bbe3d0-08e8-410c-86e9-59af6cc4daed/'
-                        }
-                    ],
-                    'valid_time': {
-                        'start_time': '2020-04-26T21:49:49.012000Z'
-                    },
+                    'valid_time': {},
                     'producer': 'urlscan.io',
                     'schema_version': '1.0.17',
                     'short_description': 'Сlassified as coinmining',
@@ -585,32 +560,7 @@ EXPECTED_SUCCESS_RESPONSE = {
                 {
                     'confidence': 'High',
                     'description': 'Сlassified as phishing',
-                    'external_ids': [
-                        '14afd7c3-aee5-4906-acde-9a706ce5bb40'
-                    ],
-                    'external_references': [
-                        {
-                            'description': 'domURL',
-                            'source_name': 'urlscan.io',
-                            'url': 'https://urlscan.io/dom/'
-                                   'e9bbe3d0-08e8-410c-86e9-59af6cc4daed/'
-                        },
-                        {
-                            'description': 'screenshotURL',
-                            'source_name': 'urlscan.io',
-                            'url': 'https://urlscan.io/screenshots/'
-                                   'e9bbe3d0-08e8-410c-86e9-59af6cc4daed.png'
-                        },
-                        {
-                            'description': 'reportURL',
-                            'source_name': 'urlscan.io',
-                            'url': 'https://urlscan.io/result/'
-                                   'e9bbe3d0-08e8-410c-86e9-59af6cc4daed/'
-                        }
-                    ],
-                    'valid_time': {
-                        'start_time': '2020-04-26T21:49:49.012000Z'
-                    },
+                    'valid_time': {},
                     'producer': 'urlscan.io',
                     'schema_version': '1.0.17',
                     'short_description': 'Сlassified as phishing',
