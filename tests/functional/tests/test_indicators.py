@@ -48,7 +48,7 @@ def test_positive_indicators(module_headers, observable, observable_type):
     for indicator in indicators['docs']:
         assert indicator['description']
         assert indicator['tags']
-        assert indicator['valid_time']
+        assert 'valid_time' in indicator
         assert indicator['producer'] == MODULE_NAME
         assert indicator['schema_version']
         assert indicator['type'] == 'indicator'
