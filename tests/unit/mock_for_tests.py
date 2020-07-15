@@ -549,9 +549,7 @@ EXPECTED_SUCCESS_RESPONSE = {
                 {
                     'confidence': 'High',
                     'description': 'Сlassified as coinmining',
-                    'valid_time': {
-                        'start_time': '2020-04-26T21:49:49.012000Z'
-                    },
+                    'valid_time': {},
                     'producer': 'urlscan.io',
                     'schema_version': '1.0.17',
                     'short_description': 'Сlassified as coinmining',
@@ -562,9 +560,7 @@ EXPECTED_SUCCESS_RESPONSE = {
                 {
                     'confidence': 'High',
                     'description': 'Сlassified as phishing',
-                    'valid_time': {
-                        'start_time': '2020-04-26T21:49:49.012000Z'
-                    },
+                    'valid_time': {},
                     'producer': 'urlscan.io',
                     'schema_version': '1.0.17',
                     'short_description': 'Сlassified as phishing',

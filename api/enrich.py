@@ -177,21 +177,12 @@ def extract_judgement(output, result_output):
 
 
 def extract_indicator(result_output, category):
-    start_time = datetime.strptime(
-        result_output['task']['time'].split('+')[0],
-        '%Y-%m-%dT%H:%M:%S.%fZ'
-    )
-
-    valid_time = {
-        'start_time': start_time.isoformat(
-            timespec='microseconds') + 'Z'
-    }
 
     indicator_id = f'transient:indicator-{uuid4()}'
 
     doc = {
         'id': indicator_id,
-        'valid_time': valid_time,
+        'valid_time': {},
         'title': category,
         'tags': result_output['verdicts']['overall']['tags'],
         'description':
