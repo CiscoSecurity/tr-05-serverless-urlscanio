@@ -125,12 +125,6 @@ def extract_sighting(output, search_result):
     }
 
     sighting_id = f'transient:sighting-{uuid4()}'
-    output['relationships'].update({
-        search_result['_id']: {
-            'indicators_id': [],
-            'sighting_id': sighting_id
-        }
-    })
 
     doc = {
         'id': sighting_id,
@@ -182,7 +176,7 @@ def extract_judgement(output, result_output):
     return doc
 
 
-def extract_indicator(output, result_output, category):
+def extract_indicator(result_output, category):
     start_time = datetime.strptime(
         result_output['task']['time'].split('+')[0],
         '%Y-%m-%dT%H:%M:%S.%fZ'
@@ -194,16 +188,12 @@ def extract_indicator(output, result_output, category):
     }
 
     indicator_id = f'transient:indicator-{uuid4()}'
-    output['relationships'][result_output['task']['uuid']][
-        'indicators_id'].append(indicator_id)
 
     doc = {
         'id': indicator_id,
         'valid_time': valid_time,
-        'external_ids': [result_output['task']['uuid']],
         'title': category,
         'tags': result_output['verdicts']['overall']['tags'],
-        'external_references': get_external_references(result_output),
         'description':
             current_app.config['CTIM_INDICATOR_DESCRIPTION_TEMPLATE'].format(
                 category=category),
@@ -219,16 +209,15 @@ def extract_indicator(output, result_output, category):
 def extract_relationships(relationships):
     docs = []
 
-    for key in relationships.keys():
-        relation = relationships[key]
-        sighting_id = relation['sighting_id']
+    for catalog in relationships.keys():
+        relation_entities = relationships[catalog]
 
-        for indicator_id in relation['indicators_id']:
+        for sighting_id in relation_entities['sighting_ids']:
             relationship_id = f'transient:relationship-{uuid4()}'
 
             doc = {
                 'id': relationship_id,
-                'source_ref': indicator_id,
+                'source_ref': relation_entities['indicator_id'],
                 'target_ref': sighting_id,
                 **current_app.config['CTIM_RELATIONSHIPS_DEFAULT']
             }
@@ -340,8 +329,17 @@ def observe_observables():
                         extract_judgement(output, result_output))
                     for category in \
                             result_output['verdicts']['overall']['categories']:
-                        g.indicators.append(
-                            extract_indicator(output, result_output, category))
+                        if not output['relationships'].get(category):
+                            g.indicators.append(extract_indicator(
+                                result_output, category))
+                            output['relationships'][category] = {
+                                'sighting_ids': [g.sightings[-1]['id']],
+                                'indicator_id': g.indicators[-1]['id']
+                            }
+                        else:
+                            output['relationships'][category][
+                                'sighting_ids'].append(g.sightings[-1]['id'])
+
             g.relationships.extend(
                 extract_relationships(output['relationships']))
 
