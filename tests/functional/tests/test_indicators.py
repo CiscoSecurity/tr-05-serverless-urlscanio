@@ -48,19 +48,13 @@ def test_positive_indicators(module_headers, observable, observable_type):
     for indicator in indicators['docs']:
         assert indicator['description']
         assert indicator['tags']
-        assert indicator['valid_time']['start_time']
+        assert indicator['valid_time']
         assert indicator['producer'] == MODULE_NAME
         assert indicator['schema_version']
         assert indicator['type'] == 'indicator'
-        assert indicator['external_ids']
         assert indicator['short_description']
         assert indicator['title']
         assert indicator['id'].startswith('transient:indicator')
         assert indicator['confidence'] == CONFIDENCE_LEVEL
-        for external_reference in indicator['external_references']:
-            assert external_reference['source_name'] == MODULE_NAME
-            assert 'URL' in external_reference['description']
-            assert external_reference[
-                'url'].startswith(f'https://{MODULE_NAME}/')
 
     assert indicators['count'] == len(indicators['docs'])
