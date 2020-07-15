@@ -256,9 +256,14 @@ header set to `Bearer <JWT>`.
   
 - `POST /respond/observables`
   - Accepts a list of observables and filters out unsupported ones.
-  - Builds a scan link per each supported observable to make scan action with 
-  this observables on urlscan.io.
-  - Returns a list of those links.
+  - Makes action objects for each observable.
+  - Returns a list of those actions.
+  
+- `POST /respond/trigger`
+  - Accepts an observable and filters if it's unsupported.
+  - Builds a scan link to make scan action with this observable on urlscan.io.
+  - Make scan request to urlscan.io using the link.
+  - Returns a message `status: ok` if the scan was success or error message if not.
 
 ### Supported Types of Observables
 
@@ -282,8 +287,7 @@ header set to `Bearer <JWT>`.
   single response per each requested observable.
   - Applies to the following CTIM entities:
     - `Judgement`,
-    - `Sighting`,
-    - `Indicator`.
+    - `Sighting`.
   - Must be a positive integer. Defaults to `100` (if unset or incorrect).
 
 ## CTIM Mapping Specifics
