@@ -8,7 +8,7 @@ from tests.functional.tests.constants import MODULE_NAME, CONFIDENCE_LEVEL
     'observable_type, observable',
     (
         ('ip', '185.143.172.209'),
-        ('domain', 'doodle.com'),
+        ('domain', 'gasimanai.ml'),
         ('ipv6', '2606:4700:3036::6818:62bd'),
         ('url', 'http://gasimanai.ml/zanku/PvqDq929BSx_A_D_M1n_a.php'),
     )
