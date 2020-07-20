@@ -33,10 +33,10 @@ class Config:
     }
 
     URL_SCAN_OBSERVABLE_TYPES = {
-        'ip': 'ip:"{observable}"',
-        'ipv6': 'ip:"{observable}"',
-        'domain': 'domain:"{observable}"',
-        'url': 'page.url:"{observable}"'
+        'ip': 'page.ip:"{observable}"',
+        'ipv6': 'page.ip:"{observable}"',
+        'domain': 'page.domain:"{observable}"',
+        'url': 'page.url.exact:"{observable}"'
     }
     URL_SCAN_SCAN_OBSERVABLES = ['url']
 
