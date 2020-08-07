@@ -10,7 +10,8 @@ from tests.functional.tests.constants import MODULE_NAME, CONFIDENCE_LEVEL
         ('ip', '185.143.172.209'),
         ('domain', 'gasimanai.ml'),
         ('ipv6', '2606:4700:3036::6818:62bd'),
-        ('url', 'http://gasimanai.ml/zanku/PvqDq929BSx_A_D_M1n_a.php'),
+        # uncomment it when you find url with data
+        # ('url', 'http://gasimanai.ml/zanku/PvqDq929BSx_A_D_M1n_a.php'),
     )
 )
 def test_positive_indicators(module_headers, observable, observable_type):
