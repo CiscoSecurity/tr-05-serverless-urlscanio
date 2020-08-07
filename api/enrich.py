@@ -1,9 +1,9 @@
 from uuid import uuid4
 from datetime import datetime, timedelta
 from urllib.parse import quote
+from concurrent.futures import ThreadPoolExecutor
 
 from flask import Blueprint, g, current_app
-
 from api.schemas import ObservableSchema
 from api.utils import (
     get_json,
@@ -310,10 +310,16 @@ def observe_observables():
                 search_results = \
                     search_results[:current_app.config['CTR_ENTITIES_LIMIT']]
 
+            workers_number = len(search_results) or 1
+            with ThreadPoolExecutor(
+                    max_workers=workers_number) as executor:
+                result_outputs = \
+                    executor.map(client.get_result_data, search_results)
+
             for search_result in search_results:
                 g.sightings.append(extract_sighting(output, search_result))
 
-                result_output = client.get_result_data(search_result['_id'])
+                result_output = next(result_outputs)
                 if result_output and \
                         result_output['verdicts']['overall']['malicious']:
                     g.judgements.append(
