@@ -1,3 +1,4 @@
+from ipaddress import ip_address
 import os
 from uuid import uuid4
 from datetime import datetime, timedelta
@@ -5,6 +6,7 @@ from urllib.parse import quote
 from concurrent.futures import ThreadPoolExecutor
 
 from flask import Blueprint, g, current_app
+
 from api.schemas import ObservableSchema
 from api.utils import (
     get_json,
@@ -35,6 +37,8 @@ def group_observables(relay_input):
 
 
 def get_observable_object(type_, value):
+    if type_ == 'ip' and ip_address(value).version == 6:
+        type_ = 'ipv6'
     return {
         'type': type_,
         'value': value
