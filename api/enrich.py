@@ -1,3 +1,4 @@
+import os
 from uuid import uuid4
 from datetime import datetime, timedelta
 from urllib.parse import quote
@@ -310,7 +311,8 @@ def observe_observables():
                 search_results = \
                     search_results[:current_app.config['CTR_ENTITIES_LIMIT']]
 
-            workers_number = len(search_results) or 1
+            workers_number = max(
+                (os.cpu_count() or 1) * 5, len(search_results) or 1)
             with ThreadPoolExecutor(
                     max_workers=workers_number) as executor:
                 result_outputs = \
