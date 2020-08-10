@@ -37,7 +37,7 @@ def group_observables(relay_input):
 
 
 def get_observable_object(type_, value):
-    if type_ == 'ip' and ip_address(value).version == 6:
+    if value and type_ == 'ip' and ip_address(value).version == 6:
         type_ = 'ipv6'
     return {
         'type': type_,
