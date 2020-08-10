@@ -68,7 +68,8 @@ class URLScanClient:
         result['observable'] = observable
         return result
 
-    def get_result_data(self, id_):
+    def get_result_data(self, search_data):
+        id_ = search_data['_id']
         endpoint = 'result/{}'.format(id_)
         url = self._join_url(endpoint)
         return self._get(url)
