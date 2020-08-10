@@ -315,7 +315,7 @@ def observe_observables():
                 search_results = \
                     search_results[:current_app.config['CTR_ENTITIES_LIMIT']]
 
-            workers_number = max(
+            workers_number = min(
                 (os.cpu_count() or 1) * 5, len(search_results) or 1)
             with ThreadPoolExecutor(
                     max_workers=workers_number) as executor:
