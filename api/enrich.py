@@ -37,7 +37,7 @@ def group_observables(relay_input):
 
 
 def get_observable_object(type_, value):
-    if type_ == 'ip' and ip_address(value).version == 6:
+    if type_ == 'ip' and value and ip_address(value).version == 6:
         type_ = 'ipv6'
     return {
         'type': type_,
@@ -315,7 +315,7 @@ def observe_observables():
                 search_results = \
                     search_results[:current_app.config['CTR_ENTITIES_LIMIT']]
 
-            workers_number = max(
+            workers_number = min(
                 (os.cpu_count() or 1) * 5, len(search_results) or 1)
             with ThreadPoolExecutor(
                     max_workers=workers_number) as executor:
