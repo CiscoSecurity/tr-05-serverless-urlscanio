@@ -36,7 +36,7 @@ class Config:
         'ip': 'page.ip:"{observable}"',
         'ipv6': 'page.ip:"{observable}"',
         'domain': 'page.domain:"{observable}"',
-        'url': 'page.url.exact:"{observable}"'
+        'url': 'page.url.keyword:"{observable}"'
     }
     URL_SCAN_SCAN_OBSERVABLES = ['url']
 
