@@ -3,8 +3,11 @@ import json
 from authlib.jose import jwt
 from authlib.jose.errors import JoseError
 from flask import request, current_app, jsonify, g
+from requests.exceptions import SSLError
+
 from api.errors import (
-    BadRequestError
+    BadRequestError,
+    URLScanSSLError
 )
 
 
@@ -83,3 +86,12 @@ def jsonify_errors(error):
         data.pop('data')
 
     return jsonify(data)
+
+
+def catch_ssl_errors(func):
+    def wraps(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except SSLError as error:
+            raise URLScanSSLError(error)
+    return wraps
