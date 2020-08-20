@@ -883,3 +883,15 @@ EXPECTED_RESPOND_OBSERVABLE_RESPONSE = {
     },
     'title': 'Make Scan in urlscan.io'
 }
+
+
+EXPECTED_RESPONSE_SSL_ERROR = {
+    'errors': [
+        {
+            'code': 'unknown',
+            'message': 'Unable to verify SSL certificate: self signed '
+                       'certificate',
+            'type': 'fatal'
+        }
+    ]
+}
