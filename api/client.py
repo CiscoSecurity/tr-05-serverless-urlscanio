@@ -11,6 +11,7 @@ from api.errors import (
     URLScanUnavailableError,
     URLScanBadRequestError
 )
+from api.utils import catch_ssl_errors
 
 
 class URLScanClient:
@@ -46,10 +47,12 @@ class URLScanClient:
             else:
                 raise URLScanUnexpectedResponseError(response)
 
+    @catch_ssl_errors
     def _get(self, url, **kwargs):
         response = requests.get(url, headers=self.headers, **kwargs)
         return self._get_response_data(response)
 
+    @catch_ssl_errors
     def _post(self, url, data, **kwargs):
         response = requests.post(url, json=data, headers=self.headers,
                                  **kwargs)
