@@ -1,7 +1,11 @@
 import pytest
 from ctrlibrary.core.utils import get_observables
 from ctrlibrary.threatresponse.enrich import enrich_observe_observables
-from tests.functional.tests.constants import MODULE_NAME, CONFIDENCE_LEVEL
+from tests.functional.tests.constants import (
+    MODULE_NAME,
+    CONFIDENCE_LEVEL,
+    CTR_ENTITIES_LIMIT
+)
 
 
 @pytest.mark.parametrize(
@@ -9,9 +13,7 @@ from tests.functional.tests.constants import MODULE_NAME, CONFIDENCE_LEVEL
     (
         ('ip', '185.143.172.209'),
         ('domain', 'gasimanai.ml'),
-        ('ipv6', '2606:4700:3036::6818:62bd'),
-        # uncomment it when you find url with data
-        # ('url', 'http://gasimanai.ml/zanku/PvqDq929BSx_A_D_M1n_a.php'),
+        ('ipv6', '2606:4700:3036::6818:62bd')
     )
 )
 def test_positive_indicators(module_headers, observable, observable_type):
@@ -58,4 +60,4 @@ def test_positive_indicators(module_headers, observable, observable_type):
         assert indicator['id'].startswith('transient:indicator')
         assert indicator['confidence'] == CONFIDENCE_LEVEL
 
-    assert indicators['count'] == len(indicators['docs'])
+    assert indicators['count'] == len(indicators['docs']) <= CTR_ENTITIES_LIMIT
