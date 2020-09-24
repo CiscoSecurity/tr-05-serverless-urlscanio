@@ -56,7 +56,7 @@ def respond_observables():
 def respond_trigger():
     relay_input = get_json(ActionFormParamsSchema())
 
-    api_key = get_jwt().get('key', '')
+    api_key = get_jwt()
 
     client = URLScanClient(
         base_url=current_app.config['URL_SCAN_API_URL'],
