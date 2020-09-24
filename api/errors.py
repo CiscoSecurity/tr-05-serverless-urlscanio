@@ -6,6 +6,7 @@ INTERNAL = 'internal error'
 TOO_MANY_REQUESTS = 'too many requests'
 SERVER_UNAVAILABLE = 'service unavailable'
 BAD_REQUEST = 'bad request'
+AUTH_ERROR = 'authorization error'
 
 
 class TRError(Exception):
@@ -94,6 +95,15 @@ class URLScanSSLError(TRError):
         super().__init__(
             UNKNOWN,
             f'Unable to verify SSL certificate: {message}'
+        )
+
+
+class AuthorizationError(TRError):
+    def __init__(self, message):
+
+        super().__init__(
+            AUTH_ERROR,
+            f"Authorization failed: {message}"
         )
 
 
