@@ -6,7 +6,7 @@ from version import VERSION
 class Config:
     VERSION = VERSION
 
-    SECRET_KEY = os.environ.get('SECRET_KEY', '')
+    SECRET_KEY = os.environ.get('SECRET_KEY', None)
 
     URL_SCAN_SOURCE_NAME = 'urlscan.io'
 
