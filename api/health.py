@@ -8,7 +8,7 @@ health_api = Blueprint('health', __name__)
 
 @health_api.route('/health', methods=['POST'])
 def health():
-    api_key = get_jwt().get('key', '')
+    api_key = get_jwt()
     client = URLScanClient(
         base_url=current_app.config['URL_SCAN_API_URL'],
         api_key=api_key,
