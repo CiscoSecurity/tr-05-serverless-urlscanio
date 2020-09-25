@@ -288,7 +288,7 @@ def observe_observables():
     if not observables:
         return jsonify_data({})
 
-    api_key = get_jwt().get('key', '')
+    api_key = get_jwt()
     client = URLScanClient(
         base_url=current_app.config['URL_SCAN_API_URL'],
         api_key=api_key,
@@ -369,7 +369,7 @@ def refer_observables():
     if not observables:
         return jsonify_data({})
 
-    api_key = get_jwt().get('key', '')
+    api_key = get_jwt()
 
     client = URLScanClient(
         base_url=current_app.config['URL_SCAN_API_URL'],
