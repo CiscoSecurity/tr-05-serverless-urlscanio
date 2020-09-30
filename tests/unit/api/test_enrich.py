@@ -16,7 +16,13 @@ from tests.unit.mock_for_tests import (
     RESULT_1_RESPONCE_MOCK,
     RESULT_2_RESPONCE_MOCK,
     EXPECTED_REFER_RESPONSE,
-    EXPECTED_RESPONSE_SSL_ERROR
+    EXPECTED_RESPONSE_SSL_ERROR,
+    EXPECTED_AUTHORIZATION_HEADER_ERROR,
+    EXPECTED_AUTHORIZATION_TYPE_ERROR,
+    EXPECTED_JWT_STRUCTURE_ERROR,
+    EXPECTED_JWT_PAYLOAD_STRUCTURE_ERROR,
+    EXPECTED_WRONG_SECRET_KEY_ERROR,
+    EXPECTED_MISSED_SECRET_KEY_ERROR
 )
 
 
@@ -253,3 +259,118 @@ def test_enrich_call_ssl_error(route, client, valid_jwt, valid_json,
 
     data = response.get_json()
     assert data == EXPECTED_RESPONSE_SSL_ERROR
+
+
+def test_enrich_call_auth_header_error(route, client, valid_jwt, valid_json,
+                                       url_scan_api_request):
+    url_scan_api_request.side_effect = (
+        url_scan_api_response(ok=True),
+        url_scan_api_response(ok=True, payload=RESULT_1_RESPONCE_MOCK),
+        url_scan_api_response(ok=True, payload=RESULT_2_RESPONCE_MOCK)
+    )
+
+    response = client.post(route, headers={}, json=valid_json)
+
+    assert response.status_code == HTTPStatus.OK
+
+    data = response.get_json()
+    assert data == EXPECTED_AUTHORIZATION_HEADER_ERROR
+
+
+def test_enrich_call_auth_type_error(route, client, valid_jwt, valid_json,
+                                     url_scan_api_request):
+    url_scan_api_request.side_effect = (
+        url_scan_api_response(ok=True),
+        url_scan_api_response(ok=True, payload=RESULT_1_RESPONCE_MOCK),
+        url_scan_api_response(ok=True, payload=RESULT_2_RESPONCE_MOCK)
+    )
+    header = {
+        'Authorization': 'Basic test_jwt'
+    }
+
+    response = client.post(route, headers=header, json=valid_json)
+
+    assert response.status_code == HTTPStatus.OK
+
+    data = response.get_json()
+    assert data == EXPECTED_AUTHORIZATION_TYPE_ERROR
+
+
+def test_enrich_call_jwt_structure_error(route, client, valid_jwt, valid_json,
+                                         url_scan_api_request):
+    url_scan_api_request.side_effect = (
+        url_scan_api_response(ok=True),
+        url_scan_api_response(ok=True, payload=RESULT_1_RESPONCE_MOCK),
+        url_scan_api_response(ok=True, payload=RESULT_2_RESPONCE_MOCK)
+    )
+    header = {
+        'Authorization': 'Bearer bad_jwt_token'
+    }
+
+    response = client.post(route, headers=header, json=valid_json)
+
+    assert response.status_code == HTTPStatus.OK
+
+    data = response.get_json()
+    assert data == EXPECTED_JWT_STRUCTURE_ERROR
+
+
+def test_enrich_call_payload_structure_error(route, client,
+                                             valid_jwt_with_wrong_payload,
+                                             valid_json, url_scan_api_request):
+    url_scan_api_request.side_effect = (
+        url_scan_api_response(ok=True),
+        url_scan_api_response(ok=True, payload=RESULT_1_RESPONCE_MOCK),
+        url_scan_api_response(ok=True, payload=RESULT_2_RESPONCE_MOCK)
+    )
+
+    response = client.post(
+        route,
+        headers=headers(valid_jwt_with_wrong_payload),
+        json=valid_json
+    )
+
+    assert response.status_code == HTTPStatus.OK
+
+    data = response.get_json()
+    assert data == EXPECTED_JWT_PAYLOAD_STRUCTURE_ERROR
+
+
+def test_enrich_call_wrong_secret_key_error(route, client, valid_jwt,
+                                            valid_json, url_scan_api_request):
+    url_scan_api_request.side_effect = (
+        url_scan_api_response(ok=True),
+        url_scan_api_response(ok=True, payload=RESULT_1_RESPONCE_MOCK),
+        url_scan_api_response(ok=True, payload=RESULT_2_RESPONCE_MOCK)
+    )
+    right_secret_key = client.application.secret_key
+    client.application.secret_key = 'wrong_key'
+
+    response = client.post(route, headers=headers(valid_jwt), json=valid_json)
+
+    client.application.secret_key = right_secret_key
+
+    assert response.status_code == HTTPStatus.OK
+
+    data = response.get_json()
+    assert data == EXPECTED_WRONG_SECRET_KEY_ERROR
+
+
+def test_enrich_call_missed_secret_key_error(route, client, valid_jwt,
+                                             valid_json, url_scan_api_request):
+    url_scan_api_request.side_effect = (
+        url_scan_api_response(ok=True),
+        url_scan_api_response(ok=True, payload=RESULT_1_RESPONCE_MOCK),
+        url_scan_api_response(ok=True, payload=RESULT_2_RESPONCE_MOCK)
+    )
+    right_secret_key = client.application.secret_key
+    client.application.secret_key = None
+
+    response = client.post(route, headers=headers(valid_jwt), json=valid_json)
+
+    client.application.secret_key = right_secret_key
+
+    assert response.status_code == HTTPStatus.OK
+
+    data = response.get_json()
+    assert data == EXPECTED_MISSED_SECRET_KEY_ERROR
