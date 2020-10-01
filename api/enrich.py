@@ -1,6 +1,6 @@
 import os
 from ipaddress import ip_address
-from uuid import uuid4
+from uuid import uuid4, uuid5, NAMESPACE_OID
 from datetime import datetime, timedelta
 from urllib.parse import quote
 from concurrent.futures import ThreadPoolExecutor
@@ -111,6 +111,12 @@ def get_reference_object(description, url):
     }
 
 
+def get_transient_id(entity_type, base_value=None):
+    uuid = (uuid5(current_app.config['NAMESPACE_BASE'], base_value)
+            if base_value else uuid4())
+    return f'transient:{entity_type}-{uuid}'
+
+
 def extract_sighting(output, search_result):
     start_time = datetime.strptime(
         search_result['task']['time'].split('+')[0],
@@ -183,10 +189,7 @@ def extract_judgement(output, result_output):
 
 def extract_indicator(result_output, category):
 
-    indicator_id = f'transient:indicator-{uuid4()}'
-
     doc = {
-        'id': indicator_id,
         'valid_time': {},
         'title': category,
         'tags': result_output['verdicts']['overall']['tags'],
@@ -198,6 +201,8 @@ def extract_indicator(result_output, category):
                 category=category),
         **current_app.config['CTIM_INDICATOR_DEFAULT']
     }
+
+    doc.update(id=get_transient_id('indicator', str(doc)))
 
     return doc
 
