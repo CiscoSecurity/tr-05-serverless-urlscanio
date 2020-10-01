@@ -1,6 +1,6 @@
 import os
 from ipaddress import ip_address
-from uuid import uuid4, uuid5, NAMESPACE_OID
+from uuid import uuid4, uuid5
 from datetime import datetime, timedelta
 from urllib.parse import quote
 from concurrent.futures import ThreadPoolExecutor
