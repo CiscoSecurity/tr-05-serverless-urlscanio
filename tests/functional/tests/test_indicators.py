@@ -13,7 +13,7 @@ from tests.functional.tests.constants import (
     (
         ('ip', '185.143.172.209'),
         ('domain', 'gasimanai.ml'),
-        ('ipv6', '2606:4700:3036::6818:62bd')
+        ('ipv6', '2606:4700:3035::6812:3f39')
     )
 )
 def test_positive_indicators(module_headers, observable, observable_type):
