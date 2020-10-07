@@ -190,6 +190,7 @@ def extract_judgement(output, result_output):
 def extract_indicator(result_output, category):
 
     doc = {
+        'id': get_transient_id('indicator', category),
         'valid_time': {},
         'title': category,
         'tags': result_output['verdicts']['overall']['tags'],
@@ -201,8 +202,6 @@ def extract_indicator(result_output, category):
                 category=category),
         **current_app.config['CTIM_INDICATOR_DEFAULT']
     }
-
-    doc.update(id=get_transient_id('indicator', str(doc)))
 
     return doc
 
