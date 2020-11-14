@@ -262,6 +262,9 @@ header set to `Bearer <JWT>`.
   - Make scan request to urlscan.io using the link.
   - Returns a message `status: ok` if the scan was success or error message if not.
 
+- `POST /version`
+  - Returns the current version of the application.
+  
 ### Supported Types of Observables
 
 - `ip`
