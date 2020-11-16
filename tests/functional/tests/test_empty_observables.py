@@ -35,7 +35,7 @@ def test_positive_smoke_empty_observables(
         **{'headers': module_headers}
     )
 
-    urlscan_data = response_from_all_modules['data']
+    urlscan_data = response_from_all_modules
 
     response_from_urlscan_module = get_observables(urlscan_data, MODULE_NAME)
 
