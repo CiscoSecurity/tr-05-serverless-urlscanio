@@ -44,7 +44,7 @@ class Config:
 
     URL_SCAN_REFERENCES_OBJECTS = ['domURL', 'screenshotURL', 'reportURL']
 
-    USER_AGENT = ('Cisco Threat Response Integrations '
+    USER_AGENT = ('SecureX Threat Response Integrations '
                   '<tr-integrations-support@cisco.com>')
 
     CTR_DEFAULT_ENTITIES_LIMIT = 100
