@@ -1,7 +1,7 @@
 # AWS Common Errors
 
 **NOTE.** If you are reading this document then most probably you have missed
-some steps/notes from the [AWS HOWTO](HOWTO.md)/[README](../README.md). So this
+some steps/notes from the [AWS HOWTO](HOWTO.md)/[README](../../README.md). So this
 document itself just lists some most common types of errors and repeats the
 same instructions one more time.
 

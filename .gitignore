@@ -2,7 +2,7 @@
 .DS_Store
 
 # PyCharm
-.idea/
+../.idea/
 
 # Python
 __pycache__/

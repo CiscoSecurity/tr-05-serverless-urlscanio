@@ -1,7 +1,7 @@
 import pytest
 from ctrlibrary.core.utils import get_observables
 from ctrlibrary.threatresponse.enrich import enrich_observe_observables
-from tests.functional.tests.constants import MODULE_NAME
+from code.tests.functional.tests import MODULE_NAME
 
 
 @pytest.mark.parametrize(
