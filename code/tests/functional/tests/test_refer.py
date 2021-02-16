@@ -2,7 +2,7 @@ import pytest
 from urllib.parse import quote
 from ctrlibrary.core.utils import get_observables
 from ctrlibrary.threatresponse.enrich import enrich_refer_observables
-from tests.functional.tests import (
+from tests.functional.tests.constants import (
     MODULE_NAME,
     URL
 )
