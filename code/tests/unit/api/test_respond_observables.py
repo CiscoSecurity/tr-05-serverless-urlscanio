@@ -16,11 +16,6 @@ def route(request):
     return request.param
 
 
-@fixture(scope='module')
-def invalid_json():
-    return [{'type': 'unknown', 'value': ''}]
-
-
 def test_enrich_call_with_invalid_json_failure(route, client, valid_jwt,
                                                invalid_json):
     response = client.post(

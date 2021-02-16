@@ -17,52 +17,17 @@ to the third-party integration, and vice versa. This application is provided
 here in the GitHub repository, and we are going to install it in AWS Lambda
 using Zappa.
 
-## Requirements Installation
-
-First of all, make sure that you already have Python 3 installed by typing
-```
-python3 --version
-```
-in your command-line shell.
-
-The application has been implemented and tested using `Python 3.7`. You may try
-to use any higher versions if you wish as they should be backward-compatible.
-
-After that, you have to create a "virtual environment" to isolate the
-application-specific requirements from the libraries globally installed to your
-system. Here are the steps to follow:
-
-1. Create a virtual environment named `venv`:
-
-   `python3 -m venv venv`
-
-2. Activate the virtual environment:
-   - Linux/Mac: `source venv/bin/activate`
-   - Windows: `venv\Scripts\activate.bat`
-
-3. Upgrade PIP (optional):
-
-   `pip install --upgrade pip`
-
-**NOTE**. The virtual environment has to be created only once, you just have
-to make sure to activate it each time you are working on or playing with the
-application (modern IDEs can automatically do that for you). You can deactivate
-a previously activated virtual environment by simply typing `deactivate` in
-your command-line shell.
-
-Finally, install the libraries required for the application to function from
-the [requirements.txt](code/requirements.txt) file:
-
-```
-pip install --upgrade --requirement requirements.txt
-```
-
 ## Testing (Optional)
+
+Open the code folder in your terminal.
+```
+cd code
+```
 
 If you want to test the application you have to install a couple of extra
 dependencies from the [test-requirements.txt](code/test-requirements.txt) file:
 ```
-pip install --upgrade --requirement test-requirements.txt
+pip install --upgrade --requirement requirements.txt
 ```
 
 You can perform two kinds of testing:

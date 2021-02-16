@@ -1,20 +1,17 @@
-from datetime import datetime
+from http import HTTPStatus
 
-from authlib.jose import jwt
-from pytest import fixture
+import jwt
 
 from app import app
+from pytest import fixture
+from api.errors import AUTH_ERROR
+from unittest.mock import patch, MagicMock
+from tests.unit.mock_for_tests import PRIVATE_KEY
 
 
 @fixture(scope='session')
-def secret_key():
-    # Generate some string based on the current datetime.
-    return datetime.utcnow().isoformat()
-
-
-@fixture(scope='session')
-def client(secret_key):
-    app.secret_key = secret_key
+def client():
+    app.rsa_private_key = PRIVATE_KEY
 
     app.testing = True
 
@@ -24,43 +21,85 @@ def client(secret_key):
 
 @fixture(scope='session')
 def valid_jwt(client):
-    header = {'alg': 'HS256'}
+    def _make_jwt(
+            key='some_key',
+            jwks_host='visibility.amp.cisco.com',
+            aud='http://localhost',
+            kid='02B1174234C29F8EFB69911438F597FF3FFEE6B7',
+            wrong_structure=False
+    ):
+        payload = {
+            'key': key,
+            'jwks_host': jwks_host,
+            'aud': aud,
+        }
 
-    payload = {'key': 'test_api_key'}
+        if wrong_structure:
+            payload.pop('key')
 
-    secret_key = client.application.secret_key
+        return jwt.encode(
+            payload, client.application.rsa_private_key, algorithm='RS256',
+            headers={
+                'kid': kid
+            }
+        )
 
-    return jwt.encode(header, payload, secret_key).decode('ascii')
-
-
-@fixture(scope='session')
-def valid_jwt_with_wrong_payload(client):
-    header = {'alg': 'HS256'}
-
-    payload = {'name': 'test'}
-
-    secret_key = client.application.secret_key
-
-    return jwt.encode(header, payload, secret_key).decode('ascii')
+    return _make_jwt
 
 
-@fixture(scope='session')
-def invalid_jwt(valid_jwt):
-    header, payload, signature = valid_jwt.split('.')
+@fixture(scope='function')
+def mock_request():
+    with patch('requests.get') as mock_request:
+        yield mock_request
 
-    def jwt_decode(s: str) -> dict:
-        from authlib.common.encoding import urlsafe_b64decode, json_loads
-        return json_loads(urlsafe_b64decode(s.encode('ascii')))
 
-    def jwt_encode(d: dict) -> str:
-        from authlib.common.encoding import json_dumps, urlsafe_b64encode
-        return urlsafe_b64encode(json_dumps(d).encode('ascii')).decode('ascii')
+@fixture(scope='function')
+def url_scan_api_request():
+    with patch('requests.post') as mock_request:
+        yield mock_request
 
-    payload = jwt_decode(payload)
 
-    # Corrupt the valid JWT by tampering with its payload.
-    payload['superuser'] = True
+def url_scan_api_response(status_code=HTTPStatus.OK, payload=None):
+    mock_response = MagicMock()
 
-    payload = jwt_encode(payload)
+    mock_response.status_code = status_code
+    mock_response.ok = status_code == HTTPStatus.OK
 
-    return '.'.join([header, payload, signature])
+    mock_response.json = lambda: payload
+
+    return mock_response
+
+
+@fixture(scope='module')
+def invalid_json():
+    return [{'type': 'unknown', 'value': ''}]
+
+
+@fixture(scope='module')
+def valid_json():
+    return [{'type': 'ip', 'value': '1.1.1.1'}]
+
+
+@fixture(scope='module')
+def valid_json_multiple():
+    return [
+        {'type': 'ip', 'value': '1.1.1.1'},
+        {'type': 'ip', 'value': '2.2.2.2'},
+    ]
+
+
+@fixture(scope='module')
+def authorization_errors_expected_payload(route):
+    def _make_payload_message(message):
+        payload = {
+            'errors': [
+                {
+                    'code': AUTH_ERROR,
+                    'message': f'Authorization failed: {message}',
+                    'type': 'fatal'
+                }
+            ]
+        }
+        return payload
+
+    return _make_payload_message
