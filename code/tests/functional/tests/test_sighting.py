@@ -1,7 +1,7 @@
 import pytest
 from ctrlibrary.core.utils import get_observables
 from ctrlibrary.threatresponse.enrich import enrich_observe_observables
-from code.tests.functional.tests import (
+from tests.functional.tests import (
     MODULE_NAME,
     CONFIDENCE_LEVEL,
     URL,
