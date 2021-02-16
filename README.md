@@ -8,7 +8,6 @@ as a third-party Cyber Threat Intelligence service provider.
 
 The Relay itself is just a simple application written in Python that can be
 easily packaged and deployed. This relay is now Cisco Hosted and no longer requires AWS Lambda.
-[Zappa](https://github.com/Miserlou/Zappa).
 
 ## Rationale
 
