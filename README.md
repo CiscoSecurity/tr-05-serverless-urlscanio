@@ -1,6 +1,6 @@
 [![Gitter Chat](https://img.shields.io/badge/gitter-join%20chat-brightgreen.svg)](https://gitter.im/CiscoSecurity/Threat-Response "Gitter Chat")
 
-# urlscan.io. URL and website sandbox Relay
+# urlscan.io. URL and website sandbox Relay (Cisco Hosted)
 
 Concrete Relay implementation using
 [urlscan.io. URL and website sandbox](https://urlscan.io/)
