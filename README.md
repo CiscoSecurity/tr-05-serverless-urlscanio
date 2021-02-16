@@ -125,16 +125,6 @@ curl http://localhost:9090
 - `domain`
 - `url`
 
-### Supported Environment Variables
-
-- `CTR_ENTITIES_LIMIT`
-  - Restricts the maximum number of CTIM entities of each type returned in a
-  single response per each requested observable.
-  - Applies to the following CTIM entities:
-    - `Judgement`,
-    - `Sighting`.
-  - Must be a positive integer. Defaults to `100` (if unset or incorrect).
-
 ## CTIM Mapping Specifics
 
 The application uses data from `search` and `result` endpoints responses.
