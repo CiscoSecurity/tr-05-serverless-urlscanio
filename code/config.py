@@ -47,7 +47,6 @@ class Config:
                   '<tr-integrations-support@cisco.com>')
 
     CTR_DEFAULT_ENTITIES_LIMIT = 100
-    CTR_ENTITIES_LIMIT = CTR_DEFAULT_ENTITIES_LIMIT
 
     CTIM_SCHEMA_VERSION = '1.0.17'
 
