@@ -7,15 +7,13 @@ Concrete Relay implementation using
 as a third-party Cyber Threat Intelligence service provider.
 
 The Relay itself is just a simple application written in Python that can be
-easily packaged and deployed as an AWS Lambda Function using
+easily packaged and deployed. This relay is now Cisco Hosted and no longer requires AWS Lambda.
 [Zappa](https://github.com/Miserlou/Zappa).
 
 ## Rationale
 
-We need an application that will translate API requests from SecureX Threat Response
-to the third-party integration, and vice versa. This application is provided
-here in the GitHub repository, and we are going to install it in AWS Lambda
-using Zappa.
+- We need an application that will translate API requests from SecureX Threat Response to the third-party integration, and vice versa.
+- We need an application that can be completely self contained within a virtualized container using Docker.  
 
 ## Testing (Optional)
 
