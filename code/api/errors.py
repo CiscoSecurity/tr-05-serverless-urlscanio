@@ -113,3 +113,11 @@ class BadRequestError(TRError):
             INVALID_ARGUMENT,
             error_message
         )
+
+
+class WatchdogError(TRError):
+    def __init__(self):
+        super().__init__(
+            code='health check failed',
+            message='Invalid Health Check'
+        )
