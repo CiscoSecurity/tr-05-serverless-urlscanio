@@ -7,13 +7,12 @@ echo " Development Dockerfile build script."
 echo
 
 module_name="Urlscanio Relay"
-image_name="tr-05-serverless-urlscanio"
+image_name="tr-05-urlscanio"
 
 CONFIG_FILE=code/container_settings.json
 if [ -f $CONFIG_FILE ]; then
    echo
    echo "The configuration file (container_settings.json) already exists."
-   echo "Remove this file if you wish to regenerate a secret_key."
    echo
    version=`jq -r .VERSION code/container_settings.json`
 else
