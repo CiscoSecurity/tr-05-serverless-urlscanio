@@ -6,6 +6,6 @@ jobs:
     script:
     - docker build -t tr-05-urlscanio .
     - docker run -d -p 9090:9090 --name tr-05-urlscanio tr-05-urlscanio
-    - while true; do if docker logs tr-05-serverless-urlscanio | grep "entered RUNNING state"; then
+    - while true; do if docker logs tr-05-urlscanio | grep "entered RUNNING state"; then
       break; else sleep 1; fi done
     - curl -X POST -sSLi http://localhost:9090 | grep '200 OK'
