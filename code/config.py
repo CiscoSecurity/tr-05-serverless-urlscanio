@@ -1,13 +1,12 @@
-import os
-from uuid import NAMESPACE_X500
+import json
 
-from __version__ import VERSION
+from uuid import NAMESPACE_X500
 
 
 class Config:
-    VERSION = VERSION
+    settings = json.load(open('container_settings.json', 'r'))
+    VERSION = settings["VERSION"]
 
-    SECRET_KEY = os.environ.get('SECRET_KEY', None)
     NAMESPACE_BASE = NAMESPACE_X500
 
     URL_SCAN_SOURCE_NAME = 'urlscan.io'
@@ -48,14 +47,6 @@ class Config:
                   '<tr-integrations-support@cisco.com>')
 
     CTR_DEFAULT_ENTITIES_LIMIT = 100
-    CTR_ENTITIES_LIMIT = CTR_DEFAULT_ENTITIES_LIMIT
-
-    try:
-        limit = int(os.environ.get('CTR_ENTITIES_LIMIT'))
-        if limit > 0:
-            CTR_ENTITIES_LIMIT = limit
-    except (ValueError, TypeError):
-        pass
 
     CTIM_SCHEMA_VERSION = '1.0.17'
 
