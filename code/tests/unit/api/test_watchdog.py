@@ -11,7 +11,7 @@ def route(request):
     return request.param
 
 
-def test_version_call_success(route, client):
+def test_watchdog_call_success(route, client):
     response = client.get(route, headers={'Health-Check': 'test'})
 
     expected_payload = {'data': 'test'}
