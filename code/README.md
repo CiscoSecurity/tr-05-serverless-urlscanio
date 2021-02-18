@@ -127,6 +127,15 @@ zappa undeploy dev
 command does not change the current `URL`. The `undeploy` command destroys the
 old `URL` forever.
 
+### SecureX Threat Response Module
+
+Now, the only thing left to do is to follow one of these URLs to navigate 
+to SecureX Threat Response page in your region and create the urlscan.io module using your Lambda's URL:
+- US: https://securex.us.security.cisco.com/integrations/available/a0d1f3ca-bc86-4b87-b6de-496d3c4b4d63/new
+- EU: https://securex.eu.security.cisco.com/integrations/available/0f38ca9a-697f-4018-aaeb-c21976cf0a44/new
+- APJC: https://securex.apjc.security.cisco.com/integrations/available/cd7a3577-8a10-407e-a114-3a11ab5f5113/new
+
+
 ## Step 3: Testing (Optional)
 
 If you want to test the application you have to install a couple of extra
