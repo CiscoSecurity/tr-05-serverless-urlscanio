@@ -1,9 +1,9 @@
 [![Gitter Chat](https://img.shields.io/badge/gitter-join%20chat-brightgreen.svg)](https://gitter.im/CiscoSecurity/Threat-Response "Gitter Chat")
 
-# urlscan.io. URL and website sandbox Relay (Cisco Hosted)
+# urlscan.io (Cisco Hosted)
 
 Concrete Relay implementation using
-[urlscan.io. URL and website sandbox](https://urlscan.io/)
+[urlscan GmBH](https://urlscan.io/)
 as a third-party Cyber Threat Intelligence service provider.
 
 The Relay itself is just a simple application written in Python that can be
