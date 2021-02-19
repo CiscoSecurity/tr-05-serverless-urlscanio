@@ -1,9 +1,9 @@
 {
-  "title": "urlscan.io. URL and website sandbox",
+  "title": "urlscan.io",
   "default_name": "urlscan.io",
-  "short_description": "urlscan.io is a sandbox for websites which allows you to inspect suspicious and malicious websites",
+  "short_description": "urlscan is a sandbox for websites which allows you to inspect suspicious and malicious websites",
   "description": "urlscan.io is a service to scan and analyse websites. When a URL is submitted to urlscan.io, an automated process will browse to the URL like a regular user and record the activity that this page navigation creates. This includes the domains and IPs contacted, the resources (JavaScript, CSS, etc) requested from those domains, as well as additional information about the page itself. urlscan.io will take a screenshot of the page, record the DOM content, JavaScript global variables, cookies created by the page, and a myriad of other observations. \n\n Finally, urlscan.io will try to make a verdict whether the scanned website is considered malicious or suspicious. If the site is targeting the users one of the almost 400 brands tracked by urlscan.io, this will be shown in the scan results.",
-  "tips": "When configuring the urlscan.io integration, you must first gather some information from your urlscan.io account, deploy the [urlscan.io Serverless Relay](https://github.com/CiscoSecurity/tr-05-serverless-urlscanio), and then add the urlscan.io Module\n\n1. Log into urlscan.io, click **Add API Key**\n2. Enter a **Description**, click **Create API key**\n3. Copy the new **API Key** into a file or leave the tab open.\n3. Deploy the [urlscan.io Serverless Relay](https://github.com/CiscoSecurity/tr-05-serverless-urlscanio)\n4. Complete the **Add New urlscan.io Module** form:\n    - **Module Name** - Leave the default name or enter a name that is meaningful to you\n    - **URL** - The URL of the urlscan.io Serverless Relay\n    - **Authorization Bearer** - Enter the encoded JWT containing the urlscan.io API Key\n5. Click **Save** to complete the urlscan.io module configuration",
+  "tips": "When configuring this integration, you must first gather some information from your urlscan.io account.\n\n1.  Log into urlscan.io, click  **Add API Key**\n2.  Enter a  **Description**, click  **Create API key**\n3.  Copy the new  **API Key**  into a file or leave the tab open.\n4.  Complete the  **Add New urlscan.io Module**  form:\n    -   **Module Name**  - Leave the default name or enter a name that is meaningful to you\n    -   **API Key**  - Enter the API Key from your urlscan.io account information\n5.  Click  **Save**  to complete the urlscan.io module configuration",
   "external_references": [
     {
       "label": "Free Trial",
@@ -15,13 +15,6 @@
     }
   ],
   "configuration_spec": [
-    {
-      "key": "url",
-      "type": "string",
-      "label": "URL",
-      "required": true,
-      "tooltip": "The base URL of the Serverless Relay"
-    },
     {
       "key": "custom_key",
       "type": "api_key",
@@ -55,7 +48,8 @@
       "description": "Submit URL to urlscan.io to be scanned."
     }
   ],
-  "properties": {
+  "properties": {    
+    "url": "URLGOESHERE",
     "supported-apis": [
       "health",
       "observe/observables",
