@@ -49,7 +49,6 @@
     }
   ],
   "properties": {    
-    "url": "URLGOESHERE",
     "supported-apis": [
       "health",
       "observe/observables",
