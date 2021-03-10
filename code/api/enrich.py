@@ -262,7 +262,7 @@ def get_search_reference(observable):
         'id': f'ref-urlscan-search-{observable["type"]}-'
               f'{quote(observable["value"], safe="")}',
         'title': (
-            f'Search {observable["type"]}'
+            f'Search for this {observable["type"]}'
         ),
         'description': (
             f'Check this {observable["type"]} status with urlscan.io'
