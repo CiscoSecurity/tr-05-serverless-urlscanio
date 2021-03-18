@@ -9,7 +9,8 @@ from jwt import InvalidSignatureError, InvalidAudienceError, DecodeError
 from api.errors import (
     BadRequestError,
     URLScanSSLError,
-    AuthorizationError
+    AuthorizationError,
+    URLScanInvalidCredentialsError
 )
 
 
@@ -91,8 +92,12 @@ def get_jwt():
         payload = jwt.decode(
             token, key=key, algorithms=['RS256'], audience=[aud.rstrip('/')]
         )
+        key = payload['key']
+        if not key:
+            raise URLScanInvalidCredentialsError()
+
         set_ctr_entities_limit(payload)
-        return payload['key']
+        return key
     except tuple(expected_errors) as error:
         message = expected_errors[error.__class__]
         raise AuthorizationError(message)
