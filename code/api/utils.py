@@ -93,7 +93,7 @@ def get_jwt():
             token, key=key, algorithms=['RS256'], audience=[aud.rstrip('/')]
         )
         key = payload['key']
-        if key == '':
+        if not key:
             raise URLScanInvalidCredentialsError()
 
         set_ctr_entities_limit(payload)
