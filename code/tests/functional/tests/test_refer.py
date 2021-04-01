@@ -70,7 +70,8 @@ def test_positive_smoke_enrich_refer_observables(module_headers, observable,
             f'{observable_type}-{quote(observable, safe="")}'
         )
 
-        assert urlscan['title'] in f'{SEARCH_FOR_THIS } {observable_type}, {BROWSE} {observable_type}'
+        assert urlscan['title'] in f'{SEARCH_FOR_THIS } {observable_type},' \
+                                   f' {BROWSE} {observable_type}'
         assert urlscan['description'] == (
             f'Check this {observable_type} status with {URLSCAN}'
         )
