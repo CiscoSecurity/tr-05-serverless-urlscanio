@@ -4,7 +4,8 @@ from ctrlibrary.threatresponse.enrich import enrich_observe_observables
 from tests.functional.tests.constants import (
     MODULE_NAME,
     CONFIDENCE_LEVEL,
-    CTR_ENTITIES_LIMIT
+    CTR_ENTITIES_LIMIT,
+    URLSCAN
 )
 
 
@@ -52,7 +53,7 @@ def test_positive_indicators(module_headers, observable, observable_type):
         assert indicator['description']
         assert indicator['tags']
         assert 'valid_time' in indicator
-        assert indicator['producer'] == MODULE_NAME
+        assert indicator['producer'] == URLSCAN
         assert indicator['schema_version']
         assert indicator['type'] == 'indicator'
         assert indicator['short_description']

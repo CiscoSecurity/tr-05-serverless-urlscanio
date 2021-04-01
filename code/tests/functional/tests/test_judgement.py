@@ -6,7 +6,8 @@ from tests.functional.tests.constants import (
     CONFIDENCE_LEVEL,
     SEVERITY_LEVEL,
     CTR_ENTITIES_LIMIT,
-    URL
+    URL,
+    URLSCAN
 )
 
 
@@ -55,7 +56,7 @@ def test_positive_judgement(module_headers, observable, observable_type):
         assert judgement['schema_version']
         assert judgement['observable'] == observables[0]
         assert judgement['type'] == 'judgement'
-        assert judgement['source'] == MODULE_NAME
+        assert judgement['source'] == URLSCAN
         assert judgement['disposition'] == 2
         assert judgement['reason']
         assert judgement['source_uri'].startswith(URL)
@@ -66,7 +67,7 @@ def test_positive_judgement(module_headers, observable, observable_type):
         assert judgement['confidence'] == CONFIDENCE_LEVEL
 
         for external_reference in judgement['external_references']:
-            assert external_reference['source_name'] == MODULE_NAME
+            assert external_reference['source_name'] == URLSCAN
             assert external_reference['description']
             assert external_reference['url']
 
