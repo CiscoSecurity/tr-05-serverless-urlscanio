@@ -3,13 +3,16 @@ pipeline {
     stages {
         stage('Test') {
             agent { docker
-            { image 'python:3.7.2'
+            { image 'ctrlib'
             args '-u 0:0'}}
             steps {
-                sh 'pip3 install --upgrade --requirement code/requirements.txt'
-                sh 'cd code && flake8 .'
-                sh 'cd code && coverage run --source api/ -m pytest --verbose tests/unit/ && coverage report'
-                sh 'cd code && pytest --verbose tests/functional/'
+                withCredentials([file(credentialsId: 'project.properties', variable: 'projectproperties')]) {
+                    sh 'pip3 install --upgrade --requirement code/requirements.txt'
+                    sh 'cd code && flake8 .'
+                    sh 'cd code && coverage run --source api/ -m pytest --verbose tests/unit/ && coverage report'
+                    sh 'cp \$projectproperties project.properties'
+                    sh 'cd code && pytest --verbose tests/functional/'
+                }
             }
         }
         stage('Build') {
@@ -28,3 +31,4 @@ pipeline {
         }
     }
 }
+//Test

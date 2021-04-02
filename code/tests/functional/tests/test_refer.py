@@ -4,7 +4,10 @@ from ctrlibrary.core.utils import get_observables
 from ctrlibrary.threatresponse.enrich import enrich_refer_observables
 from tests.functional.tests.constants import (
     MODULE_NAME,
-    URL
+    URL,
+    URLSCAN,
+    SEARCH_FOR_THIS,
+    BROWSE
 )
 
 
@@ -66,11 +69,11 @@ def test_positive_smoke_enrich_refer_observables(module_headers, observable,
             f'ref-{MODULE_NAME.split(".")[0]}-{search_type}-'
             f'{observable_type}-{quote(observable, safe="")}'
         )
-        assert urlscan['title'] == (
-            f'{search_type.capitalize()} {observable_type}'
-        )
+
+        assert urlscan['title'] in f'{SEARCH_FOR_THIS } {observable_type},' \
+                                   f' {BROWSE} {observable_type}'
         assert urlscan['description'] == (
-            f'Check this {observable_type} status with {MODULE_NAME}'
+            f'Check this {observable_type} status with {URLSCAN}'
         )
-        assert urlscan['categories'] == [MODULE_NAME, search_type.capitalize()]
+        assert urlscan['categories'] == [URLSCAN, search_type.capitalize()]
         assert urlscan['url'] == url

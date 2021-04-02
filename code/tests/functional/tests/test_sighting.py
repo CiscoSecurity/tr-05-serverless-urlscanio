@@ -6,7 +6,8 @@ from tests.functional.tests.constants import (
     CONFIDENCE_LEVEL,
     URL,
     RELATION_TYPES,
-    CTR_ENTITIES_LIMIT
+    CTR_ENTITIES_LIMIT,
+    URLSCAN
 )
 
 
@@ -55,7 +56,7 @@ def test_positive_sighting(module_headers, observable, observable_type):
         assert sighting['schema_version']
         assert sighting['observables'] == observables
         assert sighting['type'] == 'sighting'
-        assert sighting['source'] == MODULE_NAME
+        assert sighting['source'] == URLSCAN
         assert sighting['external_ids']
         assert sighting['internal'] is False
         assert sighting['source_uri'] == (
@@ -74,7 +75,7 @@ def test_positive_sighting(module_headers, observable, observable_type):
                 for relation in sighting['relations']] == RELATION_TYPES
 
         for relation in sighting['relations']:
-            assert relation['origin'] == f'{MODULE_NAME} Module'
+            assert relation['origin'] == f'{URLSCAN} Module'
             assert relation['source']['value']
             assert relation['source']['type']
             assert relation['related']['value']
