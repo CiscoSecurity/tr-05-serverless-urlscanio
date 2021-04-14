@@ -29,6 +29,17 @@ pipeline {
                             sh 'cd code && coverage run --source api/ -m pytest --verbose tests/unit/ && coverage report'
                         }
                     }
+        stage('Test') {
+            agent { docker
+            { image 'ctrlib'
+            args '-u 0:0'}}
+            steps {
+                withCredentials([file(credentialsId: 'project.properties', variable: 'projectproperties')]) {
+                    sh 'pip3 install --upgrade --requirement code/requirements.txt'
+                    sh 'cd code && flake8 .'
+                    sh 'cd code && coverage run --source api/ -m pytest --verbose tests/unit/ && coverage report'
+                    sh 'cp \$projectproperties project.properties'
+                    sh 'cd code && pytest --verbose tests/functional/'
                 }
             }
         }
@@ -43,3 +54,4 @@ pipeline {
         }
     }
 }
+
