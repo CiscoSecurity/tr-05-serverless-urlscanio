@@ -2,6 +2,7 @@ import jwt
 import json
 import requests
 
+from json.decoder import JSONDecodeError
 from flask import request, current_app, jsonify, g
 from requests.exceptions import ConnectionError, InvalidURL, SSLError
 from jwt import InvalidSignatureError, InvalidAudienceError, DecodeError
@@ -48,6 +49,7 @@ def get_public_key(jwks_host, token):
     expected_errors = {
         ConnectionError: WRONG_JWKS_HOST,
         InvalidURL: WRONG_JWKS_HOST,
+        JSONDecodeError: WRONG_JWKS_HOST,
     }
     try:
         response = requests.get(f"https://{jwks_host}/.well-known/jwks")
