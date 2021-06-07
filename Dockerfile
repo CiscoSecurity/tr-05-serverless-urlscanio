@@ -48,6 +48,5 @@ RUN mv /uwsgi.ini /etc/uwsgi && \
     chown -R $USERNAME:$USERNAME /etc/uwsgi
 
 USER $USERNAME
-#RUN pip install certifi
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["/start.sh"]
