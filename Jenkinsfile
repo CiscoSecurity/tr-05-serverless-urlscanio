@@ -72,7 +72,8 @@ pipeline {
                    }
                    steps {
                        withCredentials([file(credentialsId: 'urlscanio_collection', variable: 'urlscanio_collection')]) {
-                           sh 'cp \$urlscanio_collection /urlscanio.postman_collection.json                           sh 'newman run /urlscanio.postman_collection.json'
+                           sh 'cp \$urlscanio_collection /urlscanio.postman_collection.json'
+                           sh 'newman run /urlscanio.postman_collection.json'
                        }
                    }
                }
