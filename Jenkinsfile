@@ -31,7 +31,6 @@ pipeline {
                    agent {
                        docker {
                            image 'python:latest'
-                           args '-u 0'
                            reuseNode true
                        }
                    }
@@ -53,7 +52,6 @@ pipeline {
                    agent {
                        docker {
                            image 'python:latest'
-                           args '-u 0'
                            reuseNode true
                        }
                    }
@@ -67,7 +65,7 @@ pipeline {
                    agent {
                        docker {
                            image 'postman/newman:latest'
-                           args '-u 0 --network=host --entrypoint=""'
+                           args '--network=host --entrypoint=""'
                        }
                    }
                    steps {
