@@ -31,6 +31,7 @@ pipeline {
                    agent {
                        docker {
                            image 'python:latest'
+                           args '-u 0'
                            reuseNode true
                        }
                    }
@@ -52,6 +53,7 @@ pipeline {
                    agent {
                        docker {
                            image 'python:latest'
+                           args '-u 0'
                            reuseNode true
                        }
                    }
@@ -65,13 +67,12 @@ pipeline {
                    agent {
                        docker {
                            image 'postman/newman:latest'
-                           args '--network=host --entrypoint=""'
+                           args '-u 0 --network=host --entrypoint=""'
                        }
                    }
                    steps {
                        withCredentials([file(credentialsId: 'urlscanio_collection', variable: 'urlscanio_collection')]) {
-                           sh 'cp \$urlscanio_collection /urlscanio.postman_collection.json'
-                           sh 'newman run /urlscanio.postman_collection.json'
+                           sh 'cp \$urlscanio_collection /urlscanio.postman_collection.json                           sh 'newman run /urlscanio.postman_collection.json'
                        }
                    }
                }
@@ -102,6 +103,7 @@ pipeline {
     post {
         cleanup {
             sh 'docker rm -f ${app_name}'
+            sh 'chown -R jenkins:jenkins .'
             cleanWs()
         }
     }
