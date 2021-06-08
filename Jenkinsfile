@@ -104,6 +104,7 @@ pipeline {
     post {
         cleanup {
             sh 'docker rm -f ${app_name}'
+            sh 'sudo chown -R jenkins:jenkins .'
             cleanWs()
         }
     }
