@@ -7,12 +7,6 @@ pipeline {
     }
     stages {
         stage('Build') {
-            when {
-                anyOf {
-                    branch 'master'; branch 'develop'
-                    changeRequest target: 'master' ; changeRequest target: 'develop'
-                }
-            }
             stages {
                 stage('Run container and health-check') {
                     steps {
