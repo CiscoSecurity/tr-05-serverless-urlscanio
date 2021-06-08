@@ -1,3 +1,3 @@
-@Library('softserve-jenkins-library@master') _
+@Library('softserve-jenkins-library@main') _
 
 startPipeline()
