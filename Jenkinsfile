@@ -1,3 +1,3 @@
-@Library('softserve-jenkins-library@CCTRI-2517') _
+@Library('softserve-jenkins-library@CCTRI-2534') _
 
 startPipeline()
