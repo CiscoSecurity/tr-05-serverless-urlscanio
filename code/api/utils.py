@@ -4,14 +4,11 @@ from json.decoder import JSONDecodeError
 import jwt
 import requests
 from flask import request, current_app, jsonify, g
-from requests.exceptions import (
-    ConnectionError,
-    InvalidURL,
-    SSLError,
-    HTTPError
-)
 from jwt import InvalidSignatureError, InvalidAudienceError, DecodeError
 from requests.exceptions import ConnectionError, InvalidURL, SSLError
+from requests.exceptions import (
+    HTTPError
+)
 
 from api.errors import (
     BadRequestError,
@@ -19,7 +16,6 @@ from api.errors import (
     AuthorizationError,
     URLScanInvalidCredentialsError
 )
-
 
 NO_AUTH_HEADER = 'Authorization header is missing'
 WRONG_AUTH_TYPE = 'Wrong authorization type'
@@ -55,6 +51,7 @@ def get_public_key(jwks_host, token):
     expected_errors = (
         ConnectionError,
         InvalidURL,
+        JSONDecodeError,
         HTTPError
     )
     try:
@@ -188,4 +185,5 @@ def catch_ssl_errors(func):
             return func(*args, **kwargs)
         except SSLError as error:
             raise URLScanSSLError(error)
+
     return wraps
