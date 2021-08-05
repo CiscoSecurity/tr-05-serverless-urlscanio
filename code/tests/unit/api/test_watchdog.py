@@ -18,3 +18,20 @@ def test_watchdog_call_success(route, client):
 
     assert response.status_code == HTTPStatus.OK
     assert response.get_json() == expected_payload
+
+
+def test_watchdog_call_with_missing_header(route, client):
+    response = client.get(route)
+
+    expected_payload = {
+        'errors': [
+            {
+                'code': 'health check failed',
+                'message': 'Invalid Health Check',
+                'type': 'fatal'
+            }
+        ]
+    }
+
+    assert response.status_code == HTTPStatus.OK
+    assert response.get_json() == expected_payload
