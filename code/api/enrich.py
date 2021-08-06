@@ -277,12 +277,6 @@ def get_search_reference(observable):
     }
 
 
-@enrich_api.route('/deliberate/observables', methods=['POST'])
-def deliberate_observables():
-    # Not implemented
-    return jsonify_data({})
-
-
 @enrich_api.route('/observe/observables', methods=['POST'])
 def observe_observables():
     relay_input = get_json(ObservableSchema(many=True))
