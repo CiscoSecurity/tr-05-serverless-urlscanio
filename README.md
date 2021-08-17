@@ -24,10 +24,9 @@ Open the code folder in your terminal.
 cd code
 ```
 
-If you want to test the application you have to install a couple of extra
-dependencies from the [test-requirements.txt](code/test-requirements.txt) file:
+If you want to test the application you have to install dependencies from the [Pipfile](code/Pipfile) file:
 ```
-pip install --upgrade --requirement requirements.txt
+pip install --no-cache-dir --upgrade pipenv && pipenv install --dev
 ```
 
 You can perform two kinds of testing:
