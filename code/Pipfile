@@ -9,7 +9,7 @@ requests = "==2.25.1"
 cryptography = "==3.3.2"
 Flask = "==2.0.1"
 certifi = "==2021.5.30"
-PyJWT = {version = "==2.0.1", extras = ["crypto"]}
+PyJWT = "==2.1.0"
 
 [dev-packages]
 flake8 = "3.9.2"
