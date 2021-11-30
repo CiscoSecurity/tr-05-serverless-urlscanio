@@ -9,7 +9,8 @@ from requests.exceptions import (
     ConnectionError,
     InvalidURL,
     SSLError,
-    HTTPError
+    HTTPError,
+    InvalidHeader,
 )
 
 from api.errors import (
@@ -187,4 +188,13 @@ def catch_ssl_errors(func):
             return func(*args, **kwargs)
         except SSLError as error:
             raise URLScanSSLError(error)
+    return wraps
+
+
+def catch_auth_errors(func):
+    def wraps(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except (UnicodeEncodeError, InvalidHeader):
+            raise URLScanInvalidCredentialsError
     return wraps
