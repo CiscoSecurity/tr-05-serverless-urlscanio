@@ -188,3 +188,12 @@ def catch_ssl_errors(func):
         except SSLError as error:
             raise URLScanSSLError(error)
     return wraps
+
+
+def catch_unicode_encode_error(func):
+    def wraps(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except UnicodeEncodeError:
+            raise URLScanInvalidCredentialsError
+    return wraps
