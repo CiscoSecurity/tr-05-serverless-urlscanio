@@ -16,3 +16,6 @@ project.properties
 
 # Reporting
 artifacts/
+
+# tests
+.coverage
